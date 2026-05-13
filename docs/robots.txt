@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shadowed-island.github.io/myth-atlas/sitemap.xml

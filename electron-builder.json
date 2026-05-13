@@ -1,0 +1,35 @@
+{
+  "appId": "com.mythatlas.desktop",
+  "productName": "Myth Atlas",
+  "asar": true,
+  "npmRebuild": false,
+  "artifactName": "myth-atlas-${version}-${os}-${arch}.${ext}",
+  "directories": {
+    "output": "dist/desktop"
+  },
+  "electronDownload": {
+    "mirror": "https://cdn.npmmirror.com/binaries/electron/"
+  },
+  "extraMetadata": {
+    "main": ".electron-build/electron/main.js"
+  },
+  "extraResources": [
+    {
+      "from": "out",
+      "to": "out"
+    }
+  ],
+  "files": [
+    ".electron-build/**/*",
+    "package.json",
+    "!node_modules",
+    "!node_modules/**/*"
+  ],
+  "mac": {
+    "category": "public.app-category.education",
+    "target": ["dir", "zip"]
+  },
+  "win": {
+    "target": ["nsis", "zip"]
+  }
+}

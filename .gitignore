@@ -1,0 +1,72 @@
+# Root-level ignore rules.
+# UI and desktop build artifacts are managed by their own .gitignore files.
+
+# Node / Next / Electron build artifacts
+.next/
+.electron-build/
+dist/
+node_modules/
+out/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Local analysis and QA artifacts
+e2e-results/
+edit/
+
+# Local environment
+.env
+.env.*
+!.env.example
+!.env.*.example
+.envrc
+.python-version
+
+# Editor and OS files
+.codex/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.eslintcache
+
+# Logs and temporary files
+*.log
+*.out
+*.pid
+*.pid.lock
+*.seed
+*.tmp
+*.temp
+.cache/
+logs/
+
+# Local Python tooling
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Go test outputs
+*.test
+.coverprofile
+coverage.out
+
+# Local package-manager / deployment caches
+.pnpm-store/
+.turbo/
+.vercel/
+
+# API runtime artifacts
+/api/bin/
+/api/data/
+/api/app/data/
+/api/app/test-uploads/
