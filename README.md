@@ -42,11 +42,11 @@ Selecting a story opens a richer view with artwork, location context, and a long
 
 Card view is useful when you want to browse visually before opening a story path.
 
-### Chinese interface
+### Multilingual interface
 
-![Chinese interface](docs/readme/overview-zh-2026-05.png)
+![Multilingual interface](docs/readme/overview-zh-2026-05.png)
 
-The full app can switch to Chinese from the language menu in the top bar.
+The full app supports multiple languages from the language menu in the top bar.
 
 ## Quick Start for Regular Users
 
