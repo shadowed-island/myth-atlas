@@ -1,25 +1,22 @@
-import { getResultsLabel as getLocalizedResultsLabel, localizeText } from "@/lib/i18n";
+import {
+  getLocalizedValues,
+  getResultsLabel as getLocalizedResultsLabel,
+  localizeText
+} from "@/lib/i18n";
 import type { Locale, Story, StoryCategory } from "@/lib/story-types";
 
 function toSearchableText(story: Story) {
   return [
-    localizeText(story.title, "en"),
-    localizeText(story.title, "zh"),
-    story.originalTitle ? localizeText(story.originalTitle, "en") : "",
-    story.originalTitle ? localizeText(story.originalTitle, "zh") : "",
-    localizeText(story.country, "en"),
-    localizeText(story.country, "zh"),
-    story.region ? localizeText(story.region, "en") : "",
-    story.region ? localizeText(story.region, "zh") : "",
-    localizeText(story.culture, "en"),
-    localizeText(story.culture, "zh"),
+    ...getLocalizedValues(story.title),
+    ...getLocalizedValues(story.originalTitle),
+    ...getLocalizedValues(story.country),
+    ...getLocalizedValues(story.region),
+    ...getLocalizedValues(story.culture),
     story.category,
-    localizeText(story.summary, "en"),
-    localizeText(story.summary, "zh"),
-    story.background ? localizeText(story.background, "en") : "",
-    story.background ? localizeText(story.background, "zh") : "",
-    ...(story.themes ?? []).flatMap((theme) => [localizeText(theme, "en"), localizeText(theme, "zh")]),
-    ...story.tags.flatMap((tag) => [localizeText(tag, "en"), localizeText(tag, "zh")])
+    ...getLocalizedValues(story.summary),
+    ...getLocalizedValues(story.background),
+    ...(story.themes ?? []).flatMap((theme) => getLocalizedValues(theme)),
+    ...story.tags.flatMap((tag) => getLocalizedValues(tag))
   ]
     .filter(Boolean)
     .join(" ")
@@ -64,25 +61,31 @@ export function prioritizeStoriesByFocus(stories: Story[], focusStory: Story | n
     return stories;
   }
 
+  const orderById = new Map(stories.map((story, index) => [story.id, index]));
+  const focusCountry = localizeText(focusStory.country, "en");
+  const focusRegion = focusStory.region ? localizeText(focusStory.region, "en") : null;
+
   return [...stories].sort((left, right) => {
-    const leftScore = getFocusScore(left, focusStory);
-    const rightScore = getFocusScore(right, focusStory);
+    const leftScore = getFocusScore(left, focusStory, focusCountry, focusRegion);
+    const rightScore = getFocusScore(right, focusStory, focusCountry, focusRegion);
 
     if (leftScore !== rightScore) {
       return rightScore - leftScore;
     }
 
-    return stories.indexOf(left) - stories.indexOf(right);
+    return (orderById.get(left.id) ?? 0) - (orderById.get(right.id) ?? 0);
   });
 }
 
 export function getRelatedStories(stories: Story[], focusStory: Story, limit = 3) {
+  const focusTags = new Set(focusStory.tags.map((tag) => localizeText(tag, "en")));
+
   return stories
     .filter((story) => story.id !== focusStory.id)
     .map((story, index) => ({
       story,
       index,
-      score: getRelatedStoryScore(story, focusStory)
+      score: getRelatedStoryScore(story, focusStory, focusTags)
     }))
     .filter((entry) => entry.score > 0)
     .sort((left, right) => {
@@ -96,19 +99,24 @@ export function getRelatedStories(stories: Story[], focusStory: Story, limit = 3
     .map((entry) => entry.story);
 }
 
-function getFocusScore(story: Story, focusStory: Story) {
+function getFocusScore(
+  story: Story,
+  focusStory: Story,
+  focusCountry: string,
+  focusRegion: string | null
+) {
   if (story.id === focusStory.id) {
     return 4;
   }
 
-  if (localizeText(story.country, "en") === localizeText(focusStory.country, "en")) {
+  if (localizeText(story.country, "en") === focusCountry) {
     return 3;
   }
 
   if (
     story.region &&
-    focusStory.region &&
-    localizeText(story.region, "en") === localizeText(focusStory.region, "en")
+    focusRegion &&
+    localizeText(story.region, "en") === focusRegion
   ) {
     return 2;
   }
@@ -120,7 +128,7 @@ function getFocusScore(story: Story, focusStory: Story) {
   return 0;
 }
 
-function getRelatedStoryScore(story: Story, focusStory: Story) {
+function getRelatedStoryScore(story: Story, focusStory: Story, focusTags: Set<string>) {
   let score = 0;
 
   if (
@@ -135,8 +143,7 @@ function getRelatedStoryScore(story: Story, focusStory: Story) {
     score += 3;
   }
 
-  const focusTags = focusStory.tags.map((tag) => localizeText(tag, "en"));
-  const sharedTagCount = story.tags.filter((tag) => focusTags.includes(localizeText(tag, "en"))).length;
+  const sharedTagCount = story.tags.filter((tag) => focusTags.has(localizeText(tag, "en"))).length;
   score += sharedTagCount;
 
   return score;

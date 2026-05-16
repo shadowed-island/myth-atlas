@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/story-types";
+import { localeMetadata, type Locale } from "@/lib/story-types";
 
 let audioContext: AudioContext | null = null;
 let ambienceAudio: HTMLAudioElement | null = null;
@@ -7,8 +7,10 @@ let narrationRequestId = 0;
 let activeNarrationResolve: (() => void) | null = null;
 const ambienceTrackSrc = "/audio/sea_snake_Wild_Arabia.mp3";
 const narrationLangByLocale: Record<Locale, string> = {
-  en: "en-US",
-  zh: "zh-CN"
+  en: localeMetadata.en.speechLang,
+  zh: localeMetadata.zh.speechLang,
+  es: localeMetadata.es.speechLang,
+  ar: localeMetadata.ar.speechLang
 };
 
 function getAudioContext() {
@@ -208,11 +210,21 @@ function isMacNarrationPlatform() {
     return false;
   }
 
+  const browserNavigator = window.navigator as
+    | (Navigator & {
+        userAgentData?: { platform?: string };
+      })
+    | undefined;
+  const globalNavigator = globalThis.navigator as
+    | (Navigator & {
+        userAgentData?: { platform?: string };
+      })
+    | undefined;
   const platform =
-    window.navigator?.userAgentData?.platform ??
-    window.navigator?.platform ??
-    globalThis.navigator?.userAgentData?.platform ??
-    globalThis.navigator?.platform ??
+    browserNavigator?.userAgentData?.platform ??
+    browserNavigator?.platform ??
+    globalNavigator?.userAgentData?.platform ??
+    globalNavigator?.platform ??
     "";
 
   return /mac/i.test(platform);

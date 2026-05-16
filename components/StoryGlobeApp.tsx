@@ -5,6 +5,7 @@ import {
   BookOpen,
   Compass,
   Expand,
+  Languages,
   Play,
   Rotate3D,
   Search,
@@ -19,11 +20,11 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { filterStories, getResultsLabel, prioritizeStoriesByFocus } from "@/lib/filter";
-import { localizeText, t, getActiveLensesLabel } from "@/lib/i18n";
+import { localeOptions, localizeText, t } from "@/lib/i18n";
 import { getStoryNarrativeSentences } from "@/lib/story-narrative";
 import { stories } from "@/lib/stories";
 import { categoryIconComponents } from "@/lib/category-icons";
-import { categoryMeta, storyCategories } from "@/lib/story-types";
+import { categoryMeta, localeMetadata, storyCategories } from "@/lib/story-types";
 import type { Locale, Story } from "@/lib/story-types";
 import {
   playUiSound,
@@ -34,7 +35,6 @@ import {
 } from "@/lib/sound";
 import { useExploreStore } from "@/store/useExploreStore";
 import { StoryDetail } from "@/components/StoryDetail";
-import { StoryArtwork } from "@/components/StoryArtwork";
 import { StoryList } from "@/components/StoryList";
 
 const GlobeScene = dynamic(
@@ -64,7 +64,7 @@ function getStoryNarrationPassage(
 ): NarrationPassage {
   const title = localizeText(story.title, locale);
   const sentences = getStoryNarrativeSentences(story, locale);
-  const segments = mode === "intro" ? [title, sentences[0] ?? localizeText(story.summary, locale)] : [title, ...sentences];
+  const segments = mode === "intro" ? [title, ...(sentences[0] ? [sentences[0]] : [])] : [title, ...sentences];
   const ranges: NarrationPassage["ranges"] = [];
   let text = "";
 
@@ -91,10 +91,10 @@ function getNarrationSeparator(locale: Locale, index: number) {
   }
 
   if (locale === "zh") {
-    return index === 1 ? "。" : "";
+    return index === 1 ? "。" : localeMetadata[locale].sentenceJoiner;
   }
 
-  return " ";
+  return localeMetadata[locale].sentenceJoiner;
 }
 
 function estimateNarrationSegmentDuration(segment: string, locale: Locale, isTitle: boolean) {
@@ -119,7 +119,6 @@ function findNarrationSegmentIndex(passage: NarrationPassage, charIndex: number)
 
 export function StoryGlobeApp() {
   const locale = useExploreStore((state) => state.locale);
-  const hoveredStoryId = useExploreStore((state) => state.hoveredStoryId);
   const setLocale = useExploreStore((state) => state.setLocale);
   const searchQuery = useExploreStore((state) => state.searchQuery);
   const activeCategories = useExploreStore((state) => state.activeCategories);
@@ -147,7 +146,6 @@ export function StoryGlobeApp() {
     [activeCategories, searchQuery]
   );
   const selectedStory = stories.find((story) => story.id === selectedStoryId) ?? null;
-  const hoveredStory = stories.find((story) => story.id === hoveredStoryId) ?? null;
   const prioritizedStories = useMemo(
     () => prioritizeStoriesByFocus(visibleStories, selectedStory),
     [selectedStory, visibleStories]
@@ -166,15 +164,8 @@ export function StoryGlobeApp() {
     !tourActive;
   const showCondensedHud = !selectedStory && !tourActive;
   const hasNarrationContext = Boolean(selectedStory) || tourActive;
-  const activeStory = selectedStory ?? hoveredStory;
-  const showGuidedCaption = narrationEnabled && Boolean(selectedStory);
-  const showSpotlight = Boolean(selectedStory) && !showGuidedCaption;
-
-  const activeLocation = activeStory
-    ? `${localizeText(activeStory.country, locale)} · ${localizeText(activeStory.culture, locale)}`
-    : activeCategories.length > 0
-      ? getActiveLensesLabel(locale, activeCategories.length)
-      : t(locale, "globalAtlas");
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const languageMenuRef = useRef<HTMLDivElement | null>(null);
 
   const pickRandomStory = () => {
     if (visibleStories.length === 0) {
@@ -193,6 +184,37 @@ export function StoryGlobeApp() {
     clearFilters();
     setShowDesktopHintDismissed(true);
   };
+
+  useEffect(() => {
+    document.documentElement.lang = localeMetadata[locale].htmlLang;
+    document.documentElement.dir = localeMetadata[locale].dir;
+    document.body.dir = localeMetadata[locale].dir;
+  }, [locale]);
+
+  useEffect(() => {
+    if (!languageMenuOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!languageMenuRef.current?.contains(event.target as Node)) {
+        setLanguageMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setLanguageMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [languageMenuOpen]);
 
   useEffect(() => {
     if (!soundEnabled) {
@@ -274,6 +296,23 @@ export function StoryGlobeApp() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [focusMode, setFocusMode]);
+
+  useEffect(() => {
+    if (!selectedStoryId || !globeStageRef.current) {
+      return;
+    }
+
+    if (!window.matchMedia("(max-width: 1023px)").matches) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      globeStageRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  }, [selectedStoryId]);
 
   useEffect(() => {
     if (!tourActive || visibleStories.length === 0) {
@@ -386,24 +425,6 @@ export function StoryGlobeApp() {
           </label>
 
           <div className="topbar-secondary-actions">
-            <div className="language-toggle" aria-label={t(locale, "language")} role="group">
-              <button
-                className="language-button"
-                data-active={locale === "zh"}
-                onClick={() => setLocale("zh")}
-                type="button"
-              >
-                {t(locale, "chinese")}
-              </button>
-              <button
-                className="language-button"
-                data-active={locale === "en"}
-                onClick={() => setLocale("en")}
-                type="button"
-              >
-                {t(locale, "english")}
-              </button>
-            </div>
             <button className="ghost-button" onClick={pickRandomStory} type="button">
               <Shuffle size={15} />
               {t(locale, "randomStory")}
@@ -417,24 +438,9 @@ export function StoryGlobeApp() {
               <Undo2 size={15} />
               {hasActiveFilters ? t(locale, "resetFilters") : t(locale, "resetView")}
             </button>
-          </div>
-
-          <div className="top-actions">
             <button
-              aria-label={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
-              aria-pressed={soundEnabled}
-              className="icon-button action-button"
-              data-tooltip={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              type="button"
-            >
-              {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-            </button>
-            <button
-              aria-label={tourActive ? t(locale, "tourStop") : t(locale, "tourStart")}
-              aria-pressed={tourActive}
-              className="icon-button action-button action-button-primary"
-              data-tooltip={tourActive ? t(locale, "tourStop") : t(locale, "tourStart")}
+              className="ghost-button"
+              data-active={tourActive}
               onClick={() => {
                 setTourActive(!tourActive);
                 setShowDesktopHintDismissed(true);
@@ -442,12 +448,65 @@ export function StoryGlobeApp() {
               }}
               type="button"
             >
-              {tourActive ? <Square size={16} /> : <Play size={17} />}
+              {tourActive ? <Square size={15} /> : <Play size={15} />}
+              {tourActive ? t(locale, "tourStop") : t(locale, "tourStart")}
+            </button>
+          </div>
+
+          <div className="top-actions">
+            <div className="language-menu" ref={languageMenuRef}>
+              <button
+                aria-expanded={languageMenuOpen}
+                aria-haspopup="menu"
+                aria-label={`${t(locale, "language")}: ${localeMetadata[locale].nativeLabel}`}
+                className="icon-button action-button language-menu-trigger"
+                data-tooltip={t(locale, "language")}
+                onClick={() => setLanguageMenuOpen((open) => !open)}
+                type="button"
+              >
+                <Languages size={18} />
+              </button>
+              {languageMenuOpen ? (
+                <div
+                  aria-label={t(locale, "language")}
+                  className="language-menu-popover"
+                  role="menu"
+                >
+                  {localeOptions.map((option) => (
+                    <button
+                      aria-checked={locale === option.code}
+                      className="language-menu-option"
+                      data-active={locale === option.code}
+                      key={option.code}
+                      onClick={() => {
+                        setLocale(option.code);
+                        setLanguageMenuOpen(false);
+                      }}
+                      role="menuitemradio"
+                      type="button"
+                    >
+                      {option.nativeLabel}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <button
+              aria-label={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
+              aria-pressed={soundEnabled}
+              className="icon-button action-button"
+              data-variant="sound"
+              data-tooltip={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              type="button"
+            >
+              {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
             </button>
             <button
               aria-label={narrationEnabled ? t(locale, "narrationOff") : t(locale, "narrationOn")}
               aria-pressed={narrationEnabled}
               className="icon-button action-button"
+              data-variant="narration"
               data-tooltip={narrationEnabled ? t(locale, "narrationOff") : t(locale, "narrationOn")}
               disabled={!hasNarrationContext}
               onClick={() => {
@@ -462,6 +521,7 @@ export function StoryGlobeApp() {
               aria-label={focusMode ? t(locale, "focusExit") : t(locale, "focusEnter")}
               aria-pressed={focusMode}
               className="icon-button action-button"
+              data-variant="focus"
               data-tooltip={focusMode ? t(locale, "focusExit") : t(locale, "focusEnter")}
               onClick={() => {
                 setFocusMode(!focusMode);
@@ -506,10 +566,6 @@ export function StoryGlobeApp() {
             <div className="canvas-wrap">
               <GlobeScene locale={locale} stories={visibleStories} zoomScopeRef={globeStageRef} />
             </div>
-            <div className="map-title-card" aria-live="polite">
-              <span>{t(locale, "mapTitle")}</span>
-              <strong>{activeLocation}</strong>
-            </div>
             <div className="globe-hud" data-condensed={showCondensedHud}>
               <div>
                 <span>{visibleStories.length}</span>
@@ -533,35 +589,6 @@ export function StoryGlobeApp() {
                 </button>
               </div>
             ) : null}
-            {showGuidedCaption && selectedStory ? (
-              <div className="cinematic-caption">
-                <span>{localizeText(selectedStory.country, locale)} · {localizeText(selectedStory.culture, locale)}</span>
-                <strong>{localizeText(selectedStory.title, locale)}</strong>
-                <p>{localizeText(selectedStory.summary, locale)}</p>
-              </div>
-            ) : null}
-            {showSpotlight && selectedStory ? (
-              <aside
-                className="story-spotlight"
-                style={
-                  {
-                    "--spotlight-color": categoryMeta[selectedStory.category].color
-                  } as React.CSSProperties
-                }
-              >
-                <StoryArtwork
-                  className="spotlight-artwork"
-                  priority
-                  sizes="92px"
-                  story={selectedStory}
-                />
-                <div>
-                  <span>{localizeText(selectedStory.country, locale)} · {localizeText(selectedStory.culture, locale)}</span>
-                  <strong>{localizeText(selectedStory.title, locale)}</strong>
-                  <p>{localizeText(selectedStory.summary, locale)}</p>
-                </div>
-              </aside>
-            ) : null}
             <StoryDetail layout="mobile" />
           </section>
 
@@ -570,12 +597,12 @@ export function StoryGlobeApp() {
               stories={prioritizedStories}
               query={searchQuery}
               resultsLabel={resultsLabel}
-              onPickRandom={pickRandomStory}
               onReset={resetExploration}
             />
             <StoryDetail layout="desktop" />
           </aside>
         </div>
+
       </section>
     </main>
   );

@@ -3,7 +3,16 @@
 import { Html, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { geoEquirectangular, geoPath, type GeoPermissibleObjects } from "d3-geo";
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type MutableRefObject, type RefObject } from "react";
+import {
+  memo,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MutableRefObject,
+  type RefObject
+} from "react";
 import {
   AdditiveBlending,
   BackSide,
@@ -115,7 +124,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: 47,
     lng: -108,
-    name: { en: "North America", zh: "北美洲" },
+    name: { en: "North America", zh: "北美洲", es: "Norteamérica", ar: "أمريكا الشمالية" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -123,7 +132,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: -20,
     lng: -60,
-    name: { en: "South America", zh: "南美洲" },
+    name: { en: "South America", zh: "南美洲", es: "Sudamérica", ar: "أمريكا الجنوبية" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -131,7 +140,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: 53,
     lng: 20,
-    name: { en: "Europe", zh: "欧洲" },
+    name: { en: "Europe", zh: "欧洲", es: "Europa", ar: "أوروبا" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -139,7 +148,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: 7,
     lng: 20,
-    name: { en: "Africa", zh: "非洲" },
+    name: { en: "Africa", zh: "非洲", es: "África", ar: "أفريقيا" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -147,7 +156,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: 34,
     lng: 93,
-    name: { en: "Asia", zh: "亚洲" },
+    name: { en: "Asia", zh: "亚洲", es: "Asia", ar: "آسيا" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -155,7 +164,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: -23,
     lng: 136,
-    name: { en: "Oceania", zh: "大洋洲" },
+    name: { en: "Oceania", zh: "大洋洲", es: "Oceanía", ar: "أوقيانوسيا" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -163,7 +172,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "continent",
     lat: -78,
     lng: 15,
-    name: { en: "Antarctica", zh: "南极洲" },
+    name: { en: "Antarctica", zh: "南极洲", es: "Antártida", ar: "أنتاركتيكا" },
     radius: SURFACE_REGION_LABEL_RADIUS
   },
   {
@@ -171,7 +180,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "ocean",
     lat: 17,
     lng: -154,
-    name: { en: "Pacific Ocean", zh: "太平洋" },
+    name: { en: "Pacific Ocean", zh: "太平洋", es: "Océano Pacífico", ar: "المحيط الهادئ" },
     radius: OCEAN_REGION_LABEL_RADIUS
   },
   {
@@ -179,7 +188,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "ocean",
     lat: 13,
     lng: -34,
-    name: { en: "Atlantic Ocean", zh: "大西洋" },
+    name: { en: "Atlantic Ocean", zh: "大西洋", es: "Océano Atlántico", ar: "المحيط الأطلسي" },
     radius: OCEAN_REGION_LABEL_RADIUS
   },
   {
@@ -187,7 +196,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "ocean",
     lat: -18,
     lng: 78,
-    name: { en: "Indian Ocean", zh: "印度洋" },
+    name: { en: "Indian Ocean", zh: "印度洋", es: "Océano Índico", ar: "المحيط الهندي" },
     radius: OCEAN_REGION_LABEL_RADIUS
   },
   {
@@ -195,7 +204,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "ocean",
     lat: 75,
     lng: -38,
-    name: { en: "Arctic Ocean", zh: "北冰洋" },
+    name: { en: "Arctic Ocean", zh: "北冰洋", es: "Océano Ártico", ar: "المحيط المتجمد الشمالي" },
     radius: OCEAN_REGION_LABEL_RADIUS
   },
   {
@@ -203,7 +212,7 @@ const globeRegionLabels: GlobeRegionLabel[] = [
     kind: "ocean",
     lat: -55,
     lng: 86,
-    name: { en: "Southern Ocean", zh: "南冰洋" },
+    name: { en: "Southern Ocean", zh: "南冰洋", es: "Océano Austral", ar: "المحيط الجنوبي" },
     radius: OCEAN_REGION_LABEL_RADIUS
   }
 ];
@@ -337,17 +346,17 @@ const waterwayPaths: WaterwayPath[] = [
   }
 ];
 
-export function GlobeScene({ stories, locale, zoomScopeRef }: GlobeSceneProps) {
+export const GlobeScene = memo(function GlobeScene({ stories, locale, zoomScopeRef }: GlobeSceneProps) {
   const focusStory = useExploreStore((state) => state.focusStory);
   const [isPointerOverGlobe, setIsPointerOverGlobe] = useState(false);
   const worldRotationRef = useRef(0);
 
   return (
-    <Canvas camera={{ position: [0, 0, 4.1], fov: 42 }} dpr={[1, 1.8]}>
-      <color attach="background" args={["#040509"]} />
-      <ambientLight intensity={0.68} />
-      <directionalLight color="#f6dca8" intensity={2.1} position={[2.8, 2, 4]} />
-      <pointLight color="#6ed6ff" intensity={3.8} position={[-3, -1.4, 3]} />
+    <Canvas camera={{ position: [0, 0, 4.1], fov: 42 }} dpr={[1, 1.5]}>
+      <color attach="background" args={["#181715"]} />
+      <ambientLight intensity={0.72} />
+      <directionalLight color="#f1dcc0" intensity={2.1} position={[2.8, 2, 4]} />
+      <pointLight color="#5db8a6" intensity={3.2} position={[-3, -1.4, 3]} />
       <AutoRotatingWorld locale={locale} stories={stories} worldRotationRef={worldRotationRef} />
       <CameraFocus stories={stories} worldRotationRef={worldRotationRef} />
       <GlobeScopeTracker scopeRef={zoomScopeRef} onHoverChange={setIsPointerOverGlobe} />
@@ -363,7 +372,7 @@ export function GlobeScene({ stories, locale, zoomScopeRef }: GlobeSceneProps) {
       />
     </Canvas>
   );
-}
+});
 
 function AutoRotatingWorld({
   stories,
@@ -399,38 +408,38 @@ function AutoRotatingWorld({
   );
 }
 
-function GlobeBody() {
+const GlobeBody = memo(function GlobeBody() {
   const earthTexture = useMemo(() => createEarthTexture(), []);
 
   return (
     <group>
       <mesh>
-        <sphereGeometry args={[1.55, 96, 96]} />
+        <sphereGeometry args={[1.55, 80, 80]} />
         <meshStandardMaterial
-          color="#d8ecff"
-          emissive="#0c2340"
-          emissiveIntensity={0.36}
+          color="#d9ddd4"
+          emissive="#1b2723"
+          emissiveIntensity={0.32}
           map={earthTexture}
           metalness={0.22}
           roughness={0.94}
         />
       </mesh>
       <mesh rotation={[0, 0, -0.16]} scale={1.005}>
-        <sphereGeometry args={[1.558, 48, 48]} />
+        <sphereGeometry args={[1.558, 40, 40]} />
         <meshBasicMaterial
           blending={AdditiveBlending}
-          color="#7dc6ff"
-          opacity={0.055}
+          color="#5db8a6"
+          opacity={0.05}
           transparent
           wireframe
         />
       </mesh>
       <mesh rotation={[0.1, 0, 0.35]}>
-        <sphereGeometry args={[1.572, 64, 64]} />
+        <sphereGeometry args={[1.572, 48, 48]} />
         <meshBasicMaterial
           blending={AdditiveBlending}
-          color="#dff7ff"
-          opacity={0.04}
+          color="#f2d9b6"
+          opacity={0.035}
           transparent
           wireframe
         />
@@ -443,8 +452,8 @@ function GlobeBody() {
               <torusGeometry args={[ringRadius, index % 2 === 0 ? 0.003 : 0.002, 6, 180]} />
               <meshBasicMaterial
                 blending={AdditiveBlending}
-                color={index % 2 === 0 ? "#ff9d55" : "#ffd36e"}
-                opacity={index % 2 === 0 ? 0.18 : 0.1}
+                color={index % 2 === 0 ? "#cc785c" : "#e8a55a"}
+                opacity={index % 2 === 0 ? 0.16 : 0.08}
                 transparent
               />
             </mesh>
@@ -452,12 +461,12 @@ function GlobeBody() {
         })}
       </group>
       <mesh scale={1.76}>
-        <sphereGeometry args={[1, 48, 48]} />
-        <meshBasicMaterial color="#0e1220" opacity={0.18} side={BackSide} transparent />
+        <sphereGeometry args={[1, 40, 40]} />
+        <meshBasicMaterial color="#0d0d0c" opacity={0.18} side={BackSide} transparent />
       </mesh>
     </group>
   );
-}
+});
 
 function GlobeScopeTracker({ scopeRef, onHoverChange }: GlobeScopeTrackerProps) {
   const hoveredRef = useRef(false);
@@ -815,7 +824,7 @@ function latToTextureY(latitude: number, height: number) {
   return ((90 - latitude) / 180) * height;
 }
 
-function ContinentGlowZones() {
+const ContinentGlowZones = memo(function ContinentGlowZones() {
   const zones = [
     { lat: 15, lng: 20, scale: [1.55, 0.56, 0.84], color: "#ff9d55" },
     { lat: 48, lng: 96, scale: [1.7, 0.5, 0.96], color: "#6ed6ff" },
@@ -835,20 +844,32 @@ function ContinentGlowZones() {
       })}
     </group>
   );
-}
+});
 
-function StoryRouteArcs({ stories }: StoryCollectionProps) {
+const StoryRouteArcs = memo(function StoryRouteArcs({ stories }: StoryCollectionProps) {
   const groupRef = useRef<Group>(null);
 
   const lines = useMemo(() => {
-    const pairs = stories.slice(0, Math.max(stories.length - 1, 0)).map((story, index) => [story, stories[index + 1]] as const);
+    const storyCount = Math.max(stories.length - 1, 0);
+    const maxArcCount = 96;
+    const step = Math.max(1, Math.ceil(storyCount / maxArcCount));
+    const pairs: Array<readonly [Story, Story]> = [];
+
+    for (let index = 0; index < storyCount; index += step) {
+      const start = stories[index];
+      const end = stories[Math.min(index + step, stories.length - 1)];
+
+      if (start && end && start.id !== end.id) {
+        pairs.push([start, end] as const);
+      }
+    }
 
     return pairs.map(([start, end], index) => {
       const startVector = latLngToVector3(start.latitude, start.longitude, 1.58);
       const endVector = latLngToVector3(end.latitude, end.longitude, 1.58);
       const mid = startVector.clone().add(endVector).multiplyScalar(0.5).normalize().multiplyScalar(2.05 + (index % 3) * 0.05);
       const curve = new CatmullRomCurve3([startVector, mid, endVector]);
-      const points = curve.getPoints(44);
+      const points = curve.getPoints(24);
       const geometry = new BufferGeometry().setFromPoints(points);
       return { geometry, color: categoryMeta[start.category].color };
     });
@@ -881,9 +902,12 @@ function StoryRouteArcs({ stories }: StoryCollectionProps) {
   }, [lines]);
 
   return <group ref={groupRef} />;
-}
+});
 
-function GlobeRegionLabels({ locale, worldRotationRef }: { locale: Locale } & WorldRotationProps) {
+const GlobeRegionLabels = memo(function GlobeRegionLabels({
+  locale,
+  worldRotationRef
+}: { locale: Locale } & WorldRotationProps) {
   return (
     <group>
       {globeRegionLabels.map((label) => (
@@ -896,7 +920,7 @@ function GlobeRegionLabels({ locale, worldRotationRef }: { locale: Locale } & Wo
       ))}
     </group>
   );
-}
+});
 
 function GlobeRegionLabelBadge({
   label,
@@ -959,7 +983,11 @@ function GlobeRegionLabelBadge({
   );
 }
 
-function StoryMarkers({ stories, locale, worldRotationRef }: LocalizedStoryCollectionProps & WorldRotationProps) {
+const StoryMarkers = memo(function StoryMarkers({
+  stories,
+  locale,
+  worldRotationRef
+}: LocalizedStoryCollectionProps & WorldRotationProps) {
   return (
     <group>
       {stories.map((story) => (
@@ -967,9 +995,13 @@ function StoryMarkers({ stories, locale, worldRotationRef }: LocalizedStoryColle
       ))}
     </group>
   );
-}
+});
 
-function StoryMarker({ story, locale, worldRotationRef }: { story: Story; locale: Locale } & WorldRotationProps) {
+const StoryMarker = memo(function StoryMarker({
+  story,
+  locale,
+  worldRotationRef
+}: { story: Story; locale: Locale } & WorldRotationProps) {
   const selected = useExploreStore((state) => state.selectedStoryId === story.id);
   const selectStory = useExploreStore((state) => state.selectStory);
   const soundEnabled = useExploreStore((state) => state.soundEnabled);
@@ -1051,7 +1083,7 @@ function StoryMarker({ story, locale, worldRotationRef }: { story: Story; locale
       </button>
     </Html>
   );
-}
+});
 
 function CameraFocus({ stories, worldRotationRef }: StoryCollectionProps & WorldRotationProps) {
   const focusedStoryId = useExploreStore((state) => state.focusedStoryId);

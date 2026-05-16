@@ -1,7 +1,7 @@
 "use client";
 
 import { Compass, ExternalLink, MapPinned, X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { isDesktopApp, openDesktopExternalUrl } from "@/lib/desktop";
 import { getRelatedStories } from "@/lib/filter";
 import { localizeText, localizeTextArray, t } from "@/lib/i18n";
@@ -23,8 +23,12 @@ export function StoryDetail({ layout }: StoryDetailProps) {
   const soundEnabled = useExploreStore((state) => state.soundEnabled);
   const narrationStoryId = useExploreStore((state) => state.narrationStoryId);
   const narrationSegmentIndex = useExploreStore((state) => state.narrationSegmentIndex);
-  const selectedStory = stories.find((story) => story.id === selectedStoryId);
+  const selectedStory = useMemo(
+    () => stories.find((story) => story.id === selectedStoryId),
+    [selectedStoryId]
+  );
   const activeNarrationRef = useRef<HTMLElement | null>(null);
+  const detailCardRef = useRef<HTMLElement | null>(null);
   const activeNarrationSegmentIndex =
     selectedStory && narrationStoryId === selectedStory.id ? narrationSegmentIndex : null;
 
@@ -39,50 +43,93 @@ export function StoryDetail({ layout }: StoryDetailProps) {
     });
   }, [activeNarrationSegmentIndex, selectedStory]);
 
-  if (!selectedStory) {
-    if (layout === "mobile") {
-      return null;
+  useEffect(() => {
+    if (!selectedStory || layout !== "mobile") {
+      return;
     }
 
-    return (
-      <div className={`detail-card detail-card-${layout} detail-empty detail-empty-guided`}>
-        <MapPinned size={20} />
-        <div>
-          <strong>{t(locale, "chooseStoryTitle")}</strong>
-          <p>{t(locale, "chooseStoryBody")}</p>
-        </div>
-        <div className="empty-state-actions">
-          <button className="ghost-button empty-state-button" onClick={() => selectStory("pandora")} type="button">
-            <Compass size={14} />
-            {t(locale, "startWithGreece")}
-          </button>
-        </div>
-      </div>
-    );
-  }
+    if (!window.matchMedia("(max-width: 1023px)").matches) {
+      return;
+    }
 
-  const meta = categoryMeta[selectedStory.category];
-  const relatedStories = getRelatedStories(stories, selectedStory);
-  const themes = localizeTextArray(selectedStory.themes, locale);
-  const tags = localizeTextArray(selectedStory.tags, locale);
-  const narrativeParagraphs = getStoryNarrativeSentenceParagraphs(selectedStory, locale);
+    window.requestAnimationFrame(() => {
+      detailCardRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end"
+      });
+    });
+  }, [layout, selectedStory]);
+
+  const meta = selectedStory ? categoryMeta[selectedStory.category] : null;
+  const relatedStories = useMemo(
+    () => (selectedStory ? getRelatedStories(stories, selectedStory) : []),
+    [selectedStory]
+  );
+  const themes = useMemo(
+    () => localizeTextArray(selectedStory?.themes, locale),
+    [locale, selectedStory]
+  );
+  const tags = useMemo(
+    () => localizeTextArray(selectedStory?.tags, locale),
+    [locale, selectedStory]
+  );
+  const narrativeParagraphs = useMemo(
+    () => (selectedStory ? getStoryNarrativeSentenceParagraphs(selectedStory, locale) : []),
+    [locale, selectedStory]
+  );
+  const narrativeParagraphOffsets = useMemo(
+    () =>
+      narrativeParagraphs.reduce<number[]>((offsets, paragraph, index) => {
+        const previousOffset = index === 0 ? 1 : offsets[index - 1] + narrativeParagraphs[index - 1].length;
+        offsets.push(previousOffset);
+        return offsets;
+      }, []),
+    [narrativeParagraphs]
+  );
   const setActiveNarrationElement = (element: HTMLElement | null) => {
     if (element) {
       activeNarrationRef.current = element;
     }
   };
   const handleSourceLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!selectedStory.sourceUrl || !isDesktopApp()) {
+    const sourceUrl = selectedStory?.sourceUrl;
+
+    if (!sourceUrl || !isDesktopApp()) {
       return;
     }
 
     event.preventDefault();
-    void openDesktopExternalUrl(selectedStory.sourceUrl);
+    void openDesktopExternalUrl(sourceUrl);
   };
+
+  if (!selectedStory || !meta) {
+    if (layout === "mobile") {
+      return null;
+    }
+
+    return (
+      <div className={`detail-card-empty detail-card-${layout} detail-empty detail-empty-guided`}>
+        <div className="detail-empty-copy">
+          <span className="detail-empty-icon" aria-hidden="true">
+            <MapPinned size={20} />
+          </span>
+          <div>
+            <strong>{t(locale, "chooseStoryTitle")}</strong>
+            <p>{t(locale, "chooseStoryBody")}</p>
+          </div>
+        </div>
+        <button className="ghost-button empty-state-button" onClick={() => selectStory("pandora")} type="button">
+          <Compass size={14} />
+          {t(locale, "startWithGreece")}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <article
       className={`detail-card detail-card-${layout}`}
+      ref={detailCardRef}
       style={{ "--detail-color": meta.color } as React.CSSProperties}
     >
       <button
@@ -110,6 +157,9 @@ export function StoryDetail({ layout }: StoryDetailProps) {
         <p className="detail-kicker">
           {localizeText(meta.label, locale)} · {localizeText(selectedStory.country, locale)} · {localizeText(selectedStory.culture, locale)}
         </p>
+        {selectedStory.originalTitle ? (
+          <p className="detail-original-title">{localizeText(selectedStory.originalTitle, locale)}</p>
+        ) : null}
         <h2
           className="detail-title"
           data-narrating={activeNarrationSegmentIndex === 0}
@@ -117,11 +167,17 @@ export function StoryDetail({ layout }: StoryDetailProps) {
         >
           {localizeText(selectedStory.title, locale)}
         </h2>
+        <div className="detail-intro-card">
+          <p className="detail-summary">{localizeText(selectedStory.summary, locale)}</p>
+          {selectedStory.background ? (
+            <p className="detail-context">{localizeText(selectedStory.background, locale)}</p>
+          ) : null}
+        </div>
         <div className="detail-narrative">
           {narrativeParagraphs.map((paragraph, index) => (
             <p className={index === 0 ? "detail-background" : undefined} key={index}>
               {paragraph.map((sentence, sentenceIndex) => {
-                const segmentIndex = index * 5 + sentenceIndex + 1;
+                const segmentIndex = narrativeParagraphOffsets[index] + sentenceIndex;
                 const isActive = activeNarrationSegmentIndex === segmentIndex;
                 const isRead =
                   activeNarrationSegmentIndex !== null && segmentIndex < activeNarrationSegmentIndex;

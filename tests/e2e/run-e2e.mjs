@@ -162,8 +162,8 @@ async function testDesktop(browser) {
     `Expected at least 24 initial story rows, got ${initialStoryCount}`
   );
   assert(
-    (await page.locator(".thumbnail-tile").count()) === 0,
-    "Expected gallery tiles to start collapsed"
+    (await page.locator(".story-card").count()) === 0,
+    "Expected card view to stay inactive on first load"
   );
   const firstStoryArtworkSrc =
     (await page.locator(".story-row .story-thumb-image").first().getAttribute("src")) || "";
@@ -183,23 +183,26 @@ async function testDesktop(browser) {
   );
   assert(await page.locator(".desktop-hint-inline").isVisible(), "Expected lighter first-use desktop hint");
   assert((await page.locator(".platform-cta").count()) === 0, "Expected platform CTA to be removed from desktop stage");
-  await page.locator(".story-row").first().hover();
-  await page.waitForTimeout(150);
-  assert(
-    ((await page.locator(".map-title-card strong").textContent()) || "").includes("China"),
-    "Expected hovering a story row to preview its map location"
-  );
 
-  const galleryToggle = page.getByRole("button", { name: /Show gallery|Hide gallery/ });
-  await galleryToggle.click();
+  const viewModeToggle = page.getByRole("button", {
+    name: /Switch to card view|切换到卡片视图/
+  });
+  await viewModeToggle.click();
   await page.waitForTimeout(100);
   assert(
-    (await page.locator(".thumbnail-tile").count()) === initialStoryCount,
-    `Expected ${initialStoryCount} gallery tiles after expanding gallery`
+    (await page.locator(".story-card").count()) === initialStoryCount,
+    `Expected ${initialStoryCount} story cards after switching to card view`
   );
   assert(
-    (await page.locator(".thumbnail-tile .thumbnail-image").count()) === initialStoryCount,
-    "Expected expanded gallery to render artwork visuals for every story"
+    (await page.locator(".story-card .story-card-image").count()) === initialStoryCount,
+    "Expected card view to render artwork visuals for every story"
+  );
+  assert((await page.locator(".story-row").count()) === 0, "Expected list rows to hide in card view");
+  await page.getByRole("button", { name: /Switch to list view|切换到列表视图/ }).click();
+  await page.waitForTimeout(100);
+  assert(
+    (await page.locator(".story-row").count()) === initialStoryCount,
+    "Expected list rows to return after switching back to list view"
   );
 
   const soundButton = page.getByRole("button", {
@@ -246,7 +249,6 @@ async function testDesktop(browser) {
     (await focusButton.getAttribute("aria-pressed")) === "false",
     "Expected focus mode button to exit on Escape"
   );
-  assert(await page.locator(".map-title-card").isVisible(), "Expected map title card");
 
   await switchToChinese(page);
   assert(
@@ -258,15 +260,15 @@ async function testDesktop(browser) {
     "Expected results label to switch to Chinese"
   );
   assert(
-    await page.getByRole("button", { name: /展开画廊|收起画廊/ }).isVisible(),
-    "Expected gallery toggle to localize to Chinese"
+    await page.getByRole("button", { name: /切换到卡片视图|切换到列表视图/ }).isVisible(),
+    "Expected view mode toggle to localize to Chinese"
   );
 
   await page.getByRole("button", { name: "随机故事" }).first().click();
   await page.waitForTimeout(200);
   await page.locator(".detail-card-desktop h2").first().waitFor({ state: "visible" });
 
-  const canvasBox = await page.locator("canvas").boundingBox();
+  const canvasBox = await page.locator(".canvas-wrap canvas").boundingBox();
   assert(canvasBox, "Expected desktop canvas box");
   await page.mouse.move(canvasBox.x + canvasBox.width / 2, canvasBox.y + 180);
   await page.mouse.down();
@@ -299,7 +301,9 @@ async function testDesktop(browser) {
     "Expected desktop detail to show Pandora in Chinese"
   );
   assert(
-    (await page.locator(".detail-background").first().textContent() || "").includes("希腊神话"),
+    (await page.locator(".detail-card-desktop .detail-context").first().textContent() || "").includes(
+      "希腊神话"
+    ),
     "Expected richer Chinese background detail"
   );
   assert(
@@ -400,13 +404,13 @@ async function testDesktop(browser) {
     "Expected narration button to disable again after leaving story context"
   );
 
-  const tourButton = page.getByRole("button", { name: /开始导览故事巡游|停止导览故事巡游/ });
+  const tourButton = page.getByRole("button", {
+    name: /开始导览故事巡游|停止导览故事巡游/
+  });
   await tourButton.click();
-  await page.waitForTimeout(500);
-  assert(
-    (await tourButton.getAttribute("aria-pressed")) === "true",
-    "Expected tour button to become pressed"
-  );
+  await page.getByRole("button", { name: /停止导览故事巡游|Stop guided story tour/ }).waitFor({
+    state: "visible"
+  });
   await page.locator(".detail-card-desktop h2").first().waitFor({ state: "visible" });
   assert(
     (await page.locator(".cinematic-caption").count()) === 0,
@@ -419,11 +423,9 @@ async function testDesktop(browser) {
     "Expected guided tour to mark the active story row"
   );
   await tourButton.click();
-  await page.waitForTimeout(100);
-  assert(
-    (await tourButton.getAttribute("aria-pressed")) === "false",
-    "Expected tour button to stop"
-  );
+  await page.getByRole("button", { name: /开始导览故事巡游|Start guided story tour/ }).waitFor({
+    state: "visible"
+  });
   const speechEventCountBeforePostTourSelection = (await getSpeechEvents(page)).length;
   const nextStoryTitle =
     (await page.locator(".story-row .story-copy strong").nth(1).textContent()) || "";
@@ -477,10 +479,9 @@ async function testMobile(browser) {
     `Expected at least 24 mobile story rows, got ${initialStoryCount}`
   );
   assert(
-    (await page.locator(".thumbnail-tile").count()) === 0,
-    "Expected mobile gallery tiles to start collapsed"
+    (await page.locator(".story-card").count()) === 0,
+    "Expected mobile card view to stay inactive on first load"
   );
-  assert(await page.locator(".map-title-card").isVisible(), "Expected mobile map title card");
 
   await clickStoryRow(page);
   await page.waitForTimeout(250);
@@ -491,10 +492,7 @@ async function testMobile(browser) {
     "Expected mobile detail to show first story"
   );
 
-  await page
-    .locator(".detail-card-mobile")
-    .getByLabel("Close story details")
-    .click();
+  await clickLocator(page.locator(".detail-card-mobile").getByLabel("Close story details"));
   await page.waitForTimeout(150);
   assert(
     (await page.locator(".detail-card-mobile").count()) === 0,

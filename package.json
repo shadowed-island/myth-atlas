@@ -8,6 +8,9 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build",
+    "stories:sync": "node scripts/sync-story-content.mjs",
+    "readme:stories": "pnpm stories:sync",
+    "pages:stories": "pnpm stories:sync",
     "desktop:build": "pnpm run electron:build && cross-env BUILD_TARGET=desktop next build",
     "desktop:dev": "node scripts/desktop-dev.mjs",
     "desktop:dist": "pnpm run desktop:build && node scripts/desktop-dist.mjs",

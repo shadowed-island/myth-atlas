@@ -4,39 +4,87 @@ Myth Atlas is an interactive story globe for exploring mythology and folklore by
 
 It is still a local app, but the README below is written for people who mainly want to run and enjoy it, not just hack on the code.
 
+Project page:
+
+```text
+https://shadowed-island.github.io/myth-atlas/
+```
+
 ## What You Can Do
 
 - Spin a 3D globe and jump into stories through map markers.
 - Browse hundreds of myths, folktales, epics, sacred stories, and legendary creatures.
 - Search by place, tradition, character, or theme.
 - Open a story detail panel with artwork, background, themes, and related paths.
+- Switch between list browsing and card browsing.
+- Start a guided tour and optionally enable spoken narration.
 - Switch between English and Chinese.
-- Use gallery mode or let the app pick a random story for you.
+- Let the atlas pick a random story for you.
 - Optionally package it as a desktop app with Electron.
 
 ## Real Screenshots
 
 ### Main exploration view
 
-![Main exploration view](docs/readme/overview-en.webp)
+![Main exploration view](docs/readme/overview-en-2026-05.png)
 
 The default layout combines the globe, search, category filters, and story list in one screen.
 
 ### Story detail view
 
-![Story detail view](docs/readme/story-detail-en.webp)
+![Story detail view](docs/readme/story-detail-en-2026-05.png)
 
 Selecting a story opens a richer view with artwork, location context, and a longer narrative summary.
 
-### Gallery mode
+### Card browsing view
 
-![Gallery mode](docs/readme/gallery-en.webp)
+![Card browsing view](docs/readme/card-view-en-2026-05.png)
 
-Gallery mode is helpful if you prefer browsing visually before choosing a story path.
+Card view is useful when you want to browse visually before opening a story path.
+
+### Chinese interface
+
+![Chinese interface](docs/readme/overview-zh-2026-05.png)
+
+The full app can switch to Chinese from the language menu in the top bar.
 
 ## Quick Start for Regular Users
 
-If you just want to try the app, this is the shortest path:
+If you just want to try Myth Atlas, the fastest path is to download a release build.
+
+### Download a Release
+
+Open the releases page in your browser:
+
+```text
+https://github.com/shadowed-island/myth-atlas/releases
+```
+
+Download the asset that matches your machine from the latest release. Current release files follow this pattern:
+
+- macOS Apple Silicon: `myth-atlas-<version>-mac-arm64.zip`
+- Windows x64 installer: `myth-atlas-<version>-win-x64.nsis.exe`
+- Windows x64 portable zip: `myth-atlas-<version>-win-x64.zip`
+
+If you prefer to download the latest release directly to a local folder with GitHub CLI:
+
+```bash
+mkdir -p ~/Downloads/myth-atlas
+gh release download \
+  --repo shadowed-island/myth-atlas \
+  --dir ~/Downloads/myth-atlas \
+  --pattern 'myth-atlas-*.zip'
+```
+
+After downloading:
+
+1. Unzip the archive if needed.
+2. Move the app to a convenient local folder such as `~/Applications` or `~/Downloads/myth-atlas`.
+3. Open the app bundle or installer from there.
+
+If you would rather run from source, use the steps below.
+
+### Run from Source
 
 ```bash
 pnpm install
@@ -76,7 +124,8 @@ You do not need to know React, Next.js, or Three.js to use Myth Atlas.
 4. Use the search box to look up a place, character, tradition, or theme.
 5. Try `Random story` if you want the app to choose a path for you.
 6. Switch `English` and `中文` anytime from the top bar.
-7. Open `Show gallery` if you want to browse by artwork thumbnails first.
+7. Switch to card view if you want to browse by artwork and summaries first.
+8. Start `guided story tour` if you want the atlas to move from story to story automatically.
 
 ## Install Dependencies
 
@@ -132,7 +181,9 @@ http://localhost:3000
 
 ## Desktop App Workflow
 
-If you would rather use Myth Atlas like a desktop app, Electron support is already included.
+If you already downloaded a release from GitHub, you can skip this section.
+
+If you would rather build the desktop app yourself, Electron support is already included.
 
 Build the Electron-ready renderer and main process files:
 

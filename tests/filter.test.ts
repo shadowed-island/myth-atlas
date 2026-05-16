@@ -43,6 +43,13 @@ describe("story filtering", () => {
     expect(getResultsLabel(stories.slice(0, 1), "", ["myth"], "en")).toBe("1 story in 1 active lens");
     expect(getResultsLabel(stories, "太阳", [], "zh")).toBe(`共 ${stories.length} 个故事，匹配“太阳”`);
     expect(getResultsLabel(stories.slice(0, 1), "", ["myth"], "zh")).toBe("共 1 个故事，已启用 1 个筛选视角");
+    expect(getResultsLabel(stories, "sol", [], "es")).toBe(`${stories.length} historias para “sol”`);
+    expect(getResultsLabel(stories.slice(0, 1), "", ["myth"], "ar")).toBe("1 قصة مع 1 عدسة نشطة");
+  });
+
+  it("falls back to English when newer locales do not yet have story copy", () => {
+    expect(localizeText(stories[0].title, "es")).toBe("The Monkey King's Journey");
+    expect(localizeText(stories[0].summary, "ar")).toContain("Sun Wukong");
   });
 
   it("prioritizes focused story geography without dropping results", () => {

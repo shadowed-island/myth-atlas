@@ -1,9 +1,10 @@
 "use client";
 
-import { Compass, MapPin, Search, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
+import { Compass, LayoutGrid, MapPin, Rows3, Search } from "lucide-react";
 import { memo, useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 import { localizeText, searchSuggestions, t } from "@/lib/i18n";
 import { getStoryEmoji } from "@/lib/story-emoji";
+import { getStoryNarrativeLead } from "@/lib/story-narrative";
 import { categoryMeta } from "@/lib/story-types";
 import type { Story } from "@/lib/story-types";
 import { playUiSound } from "@/lib/sound";
@@ -15,24 +16,20 @@ type StoryListProps = {
   query: string;
   resultsLabel: string;
   onReset: () => void;
-  onPickRandom: () => void;
 };
 
 export function StoryList({
   stories,
   query,
   resultsLabel,
-  onReset,
-  onPickRandom
+  onReset
 }: StoryListProps) {
   const locale = useExploreStore((state) => state.locale);
   const selectedStoryId = useExploreStore((state) => state.selectedStoryId);
-  const selectStory = useExploreStore((state) => state.selectStory);
-  const soundEnabled = useExploreStore((state) => state.soundEnabled);
-  const [galleryExpanded, setGalleryExpanded] = useState(false);
-  const storyRowRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const registerStoryRow = useCallback((storyId: string, node: HTMLButtonElement | null) => {
-    storyRowRefs.current[storyId] = node;
+  const [viewMode, setViewMode] = useState<"list" | "cards">("list");
+  const storyItemRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const registerStoryItem = useCallback((storyId: string, node: HTMLButtonElement | null) => {
+    storyItemRefs.current[storyId] = node;
   }, []);
 
   const suggestions = [
@@ -46,12 +43,27 @@ export function StoryList({
       return;
     }
 
-    const targetRow = storyRowRefs.current[selectedStoryId];
-    targetRow?.scrollIntoView({
+    const targetItem = storyItemRefs.current[selectedStoryId];
+    const listContainer = targetItem?.closest(".story-items, .story-card-grid");
+    if (!targetItem || !(listContainer instanceof HTMLElement)) {
+      return;
+    }
+
+    const itemRect = targetItem.getBoundingClientRect();
+    const containerRect = listContainer.getBoundingClientRect();
+    const isFullyVisible =
+      itemRect.top >= containerRect.top &&
+      itemRect.bottom <= containerRect.bottom;
+
+    if (isFullyVisible) {
+      return;
+    }
+
+    targetItem.scrollIntoView({
       behavior: "smooth",
       block: "nearest"
     });
-  }, [selectedStoryId]);
+  }, [selectedStoryId, viewMode]);
 
   return (
     <div className="story-list">
@@ -60,6 +72,20 @@ export function StoryList({
           <p className="eyebrow">{t(locale, "explorer")}</p>
           <h2>{resultsLabel}</h2>
         </div>
+        {stories.length > 0 ? (
+          <button
+            aria-label={viewMode === "list" ? t(locale, "switchToCardView") : t(locale, "switchToListView")}
+            className="ghost-button view-mode-toggle"
+            onClick={() => setViewMode(viewMode === "list" ? "cards" : "list")}
+            title={viewMode === "list" ? t(locale, "switchToCardView") : t(locale, "switchToListView")}
+            type="button"
+          >
+            <span className="view-mode-icons" aria-hidden="true">
+              <Rows3 data-active={viewMode === "list"} size={15} />
+              <LayoutGrid data-active={viewMode === "cards"} size={15} />
+            </span>
+          </button>
+        ) : null}
       </div>
 
       {stories.length === 0 ? (
@@ -89,69 +115,28 @@ export function StoryList({
             </div>
           </div>
         </div>
+      ) : viewMode === "list" ? (
+        <div className="story-items" data-view-mode="list">
+          {stories.map((story) => (
+            <StoryRow
+              key={story.id}
+              registerItem={registerStoryItem}
+              itemRefs={storyItemRefs}
+              stories={stories}
+              story={story}
+            />
+          ))}
+        </div>
       ) : (
-        <>
-          <div className="story-items">
-            {stories.map((story) => (
-              <StoryRow
-                key={story.id}
-                registerRow={registerStoryRow}
-                rowRefs={storyRowRefs}
-                stories={stories}
-                story={story}
-              />
-            ))}
-          </div>
-
-          <div className="thumbnail-wall-section" data-expanded={galleryExpanded}>
-            <div className="thumbnail-wall-heading">
-              <button
-                aria-expanded={galleryExpanded}
-                className="ghost-button gallery-toggle-button"
-                onClick={() => setGalleryExpanded(!galleryExpanded)}
-                type="button"
-              >
-                {galleryExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                {galleryExpanded ? t(locale, "hideGallery") : t(locale, "showGallery")}
-              </button>
-              <button className="ghost-button gallery-random-button" onClick={onPickRandom} type="button">
-                <Sparkles size={14} />
-                {t(locale, "randomStory")}
-              </button>
-            </div>
-            {galleryExpanded ? (
-              <div className="thumbnail-wall" aria-label="Story thumbnail gallery">
-                {stories.map((story) => {
-                  const meta = categoryMeta[story.category];
-                  const selected = selectedStoryId === story.id;
-
-                  return (
-                    <button
-                      aria-label={`${t(locale, "openStory")} ${localizeText(story.title, locale)}`}
-                      className="thumbnail-tile"
-                      data-selected={selected}
-                      key={story.id}
-                      onClick={() => {
-                        selectStory(story.id);
-                        if (soundEnabled) {
-                          playUiSound("select");
-                        }
-                      }}
-                      style={{ "--story-color": meta.color } as CSSProperties}
-                      type="button"
-                    >
-                      <StoryArtwork
-                        className="thumbnail-image"
-                        sizes="(max-width: 900px) 22vw, 82px"
-                        story={story}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            ) : null}
-          </div>
-        </>
+        <div className="story-card-grid" data-view-mode="cards">
+          {stories.map((story) => (
+            <StoryCard
+              key={story.id}
+              registerItem={registerStoryItem}
+              story={story}
+            />
+          ))}
+        </div>
       )}
 
       {stories.length > 0 ? (
@@ -165,13 +150,13 @@ export function StoryList({
 }
 
 type StoryRowProps = {
-  registerRow: (storyId: string, node: HTMLButtonElement | null) => void;
-  rowRefs: RefObject<Record<string, HTMLButtonElement | null>>;
+  registerItem: (storyId: string, node: HTMLButtonElement | null) => void;
+  itemRefs: RefObject<Record<string, HTMLButtonElement | null>>;
   stories: Story[];
   story: Story;
 };
 
-const StoryRow = memo(function StoryRow({ registerRow, rowRefs, stories, story }: StoryRowProps) {
+const StoryRow = memo(function StoryRow({ registerItem, itemRefs, stories, story }: StoryRowProps) {
   const locale = useExploreStore((state) => state.locale);
   const selected = useExploreStore((state) => state.selectedStoryId === story.id);
   const hovered = useExploreStore((state) => state.hoveredStoryId === story.id);
@@ -183,6 +168,7 @@ const StoryRow = memo(function StoryRow({ registerRow, rowRefs, stories, story }
   const soundEnabled = useExploreStore((state) => state.soundEnabled);
   const meta = categoryMeta[story.category];
   const storyEmoji = getStoryEmoji(story.id);
+  const storyLead = getStoryNarrativeLead(story, locale) || localizeText(story.summary, locale);
 
   return (
     <button
@@ -207,17 +193,17 @@ const StoryRow = memo(function StoryRow({ registerRow, rowRefs, stories, story }
           event.preventDefault();
           const offset = event.key === "ArrowDown" ? 1 : -1;
           const nextIndex = (currentIndex + offset + stories.length) % stories.length;
-          rowRefs.current[stories[nextIndex]?.id ?? ""]?.focus();
+          itemRefs.current[stories[nextIndex]?.id ?? ""]?.focus();
         }
 
         if (event.key === "Home") {
           event.preventDefault();
-          rowRefs.current[stories[0]?.id ?? ""]?.focus();
+          itemRefs.current[stories[0]?.id ?? ""]?.focus();
         }
 
         if (event.key === "End") {
           event.preventDefault();
-          rowRefs.current[stories[stories.length - 1]?.id ?? ""]?.focus();
+          itemRefs.current[stories[stories.length - 1]?.id ?? ""]?.focus();
         }
       }}
       onMouseEnter={() => {
@@ -235,7 +221,7 @@ const StoryRow = memo(function StoryRow({ registerRow, rowRefs, stories, story }
         }
       }}
       ref={(node) => {
-        registerRow(story.id, node);
+        registerItem(story.id, node);
       }}
       style={{ "--story-color": meta.color } as CSSProperties}
       type="button"
@@ -244,14 +230,80 @@ const StoryRow = memo(function StoryRow({ registerRow, rowRefs, stories, story }
         <StoryArtwork className="story-thumb-image" sizes="52px" story={story} />
         <span className="story-thumb-emoji" aria-hidden="true">{storyEmoji}</span>
       </span>
-      <span className="story-copy">
-        <strong>{localizeText(story.title, locale)}</strong>
-        <span>
+      <div className="story-copy">
+        <div className="story-copy-header">
+          <strong className="story-title">{localizeText(story.title, locale)}</strong>
+          <span className="story-category">{localizeText(meta.shortLabel, locale)}</span>
+        </div>
+        <span className="story-meta">
           <MapPin size={13} />
-          {localizeText(story.country, locale)} · {localizeText(story.culture, locale)}
+          <span className="story-meta-text">
+            {localizeText(story.country, locale)} · {localizeText(story.culture, locale)}
+          </span>
         </span>
+        <p className="story-summary">{storyLead}</p>
+      </div>
+    </button>
+  );
+});
+
+type StoryCardProps = {
+  registerItem: (storyId: string, node: HTMLButtonElement | null) => void;
+  story: Story;
+};
+
+const StoryCard = memo(function StoryCard({ registerItem, story }: StoryCardProps) {
+  const locale = useExploreStore((state) => state.locale);
+  const selected = useExploreStore((state) => state.selectedStoryId === story.id);
+  const selectStory = useExploreStore((state) => state.selectStory);
+  const setHoveredStoryId = useExploreStore((state) => state.setHoveredStoryId);
+  const soundEnabled = useExploreStore((state) => state.soundEnabled);
+  const meta = categoryMeta[story.category];
+  const storyLead = getStoryNarrativeLead(story, locale) || localizeText(story.summary, locale);
+
+  return (
+    <button
+      aria-label={`${t(locale, "openStory")} ${localizeText(story.title, locale)}`}
+      className="story-card"
+      data-selected={selected}
+      onClick={() => {
+        selectStory(story.id);
+        if (soundEnabled) {
+          playUiSound("select");
+        }
+      }}
+      onFocus={() => {
+        setHoveredStoryId(story.id);
+      }}
+      onMouseEnter={() => {
+        setHoveredStoryId(story.id);
+        if (soundEnabled) {
+          playUiSound("hover");
+        }
+      }}
+      onMouseLeave={() => {
+        setHoveredStoryId(null);
+      }}
+      ref={(node) => {
+        registerItem(story.id, node);
+      }}
+      style={{ "--story-color": meta.color } as CSSProperties}
+      type="button"
+    >
+      <StoryArtwork className="story-card-image" sizes="(max-width: 1023px) 44vw, 200px" story={story} />
+      <span className="story-card-body">
+        <span className="story-card-topline">
+          <strong className="story-card-title">{localizeText(story.title, locale)}</strong>
+          <span className="story-category">{localizeText(meta.shortLabel, locale)}</span>
+        </span>
+        <span className="story-meta">
+          <MapPin size={13} />
+          <span className="story-meta-text">
+            {localizeText(story.country, locale)} · {localizeText(story.culture, locale)}
+          </span>
+        </span>
+        <span className="story-card-summary">{storyLead}</span>
       </span>
-      <span className="story-category">{localizeText(meta.shortLabel, locale)}</span>
     </button>
   );
 });

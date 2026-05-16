@@ -52,12 +52,15 @@ function installSpeechMocks(
 async function expectNarrationLocale(
   locale: Locale,
   expectedLang: string,
-  expectedVoice: string
-) {
-  const { cancel, speak } = installSpeechMocks([
+  expectedVoice: string,
+  voices = [
     { lang: "en-US", name: "Samantha" },
-    { lang: "zh-CN", name: "Eddy (Chinese (China mainland))" }
-  ]);
+    { lang: "zh-CN", name: "Eddy (Chinese (China mainland))" },
+    { lang: "es-ES", name: "Monica" },
+    { lang: "ar-SA", name: "Tarik" }
+  ]
+) {
+  const { cancel, speak } = installSpeechMocks(voices);
 
   await speakNarrationLine("demo line", locale);
 
@@ -100,6 +103,14 @@ describe("narration speech", () => {
 
   it("uses a Chinese voice for Chinese narration", async () => {
     await expectNarrationLocale("zh", "zh-CN", "Eddy (Chinese (China mainland))");
+  });
+
+  it("uses a Spanish voice for Spanish narration", async () => {
+    await expectNarrationLocale("es", "es-ES", "Monica");
+  });
+
+  it("uses an Arabic voice for Arabic narration", async () => {
+    await expectNarrationLocale("ar", "ar-SA", "Tarik");
   });
 
   it("formats Chinese narration with Chinese punctuation", async () => {

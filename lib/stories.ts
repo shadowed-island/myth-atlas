@@ -21,6 +21,18 @@ export const stories: Story[] = [
       "This Ming-era classic gathers older pilgrimage legends, Buddhist ideas, and trickster energy into one of the most influential story cycles in East Asia.",
       "这部明代经典汇聚了更早的取经传说、佛教思想与机巧顽皮的精神，成为东亚最有影响力的故事体系之一。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "After causing havoc in Heaven, Sun Wukong is subdued by the Buddha and pinned beneath a mountain. Centuries later, the monk Tang Sanzang receives an order to travel west and fetch Buddhist scriptures. Guanyin arranges for Sun Wukong to protect him on the road. The monkey is released and becomes the monk's first disciple.",
+        "On the journey they add Zhu Bajie, Sha Wujing, and the White Dragon Horse to their company. The travelers pass kingdoms, mountains, rivers, and demon lairs on the way to India. Again and again monsters try to seize Tang Sanzang because they believe his flesh will bring them power. Sun Wukong fights them with his staff, his transformations, and help from immortals and bodhisattvas.",
+        "The road also brings quarrels, punishment, and repeated tests of patience between master and disciples. After eighty-one trials, the pilgrims reach the Thunder Monastery and receive the scriptures. They carry the texts back to Tang China and present them at court. When the journey is complete, each traveler receives a final religious title."
+      ],
+      zh: [
+        "孙悟空大闹天宫后，被如来压在五行山下。许多年后，唐三藏奉命前往西天取经。观音安排孙悟空护送他上路。孙悟空因此脱困，成了唐三藏的第一个徒弟。",
+        "一路上，他们又收下猪八戒、沙悟净和白龙马。师徒几人穿过国度、山岭、河流和妖洞，朝天竺前进。许多妖怪都想抓住唐三藏，因为他们相信吃了他的肉就能得到好处。孙悟空便用金箍棒、七十二变和诸神佛的援手一次次把师父救回来。",
+        "这段路上也不断出现争执、惩戒和对师徒耐心的考验。经历八十一难后，他们终于到达雷音寺，取回真经。随后师徒带着经卷返回大唐，将经书呈交朝廷。等这场远行结束后，每个人都得到了自己的果位。"
+      ]
+    },
     themes: [text("discipline", "修行"), text("rebellion", "反叛"), text("pilgrimage", "取经")],
     imageUrl: "/story-artwork/journey-to-the-west.webp",
     tags: [text("pilgrimage", "取经"), text("monkey king", "孙悟空"), text("transformation", "变化"), text("buddhism", "佛教")],
@@ -43,6 +55,18 @@ export const stories: Story[] = [
       "In Greek myth, Pandora stands at the edge of debates about curiosity, divine punishment, and why hardship belongs to human life.",
       "在希腊神话中，潘多拉处在关于好奇心、神罚以及人类为何必须承受苦难的讨论中心。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "After Prometheus stole fire for humankind, Zeus decided to send a new trouble to earth. Hephaestus shaped a woman from clay, and the gods gave her many gifts. Aphrodite gave beauty, Athena taught her crafts, and Hermes gave her a cunning mind and persuasive speech. She was named Pandora, and Zeus sent her to Epimetheus with a sealed jar.",
+        "Prometheus had warned his brother not to accept anything from Zeus, but Epimetheus welcomed Pandora anyway. Pandora lived among humans while the jar remained closed. At last her curiosity overcame her, and she lifted the lid. Out flew sickness, toil, grief, envy, and many other sorrows that spread through the world.",
+        "Startled by what she had done, Pandora closed the jar as quickly as she could. But it was too late to call the evils back. Only Hope remained inside, still kept under the rim of the jar. The jar stayed shut, and the sorrows remained loose in the world."
+      ],
+      zh: [
+        "普罗米修斯为人类盗取火种后，宙斯决定把新的灾祸送到人间。赫淮斯托斯用泥土塑成一个女子，诸神又把各种天赋赐给她。阿佛洛狄忒给她美貌，雅典娜教她纺织手艺，赫尔墨斯给她机巧的心思和善辩的口才。她被命名为潘多拉，宙斯随后把她送到厄庇墨透斯那里，并带去一个封好的罐子。",
+        "普罗米修斯曾告诫弟弟不要接受宙斯的礼物，但厄庇墨透斯还是收留了潘多拉。潘多拉住在人间，那个罐子一直没有打开。后来她终于按捺不住好奇心，掀开了盖子。疾病、劳苦、悲伤、嫉妒和各种灾祸一起飞出，散布到世界各处。",
+        "潘多拉被眼前的景象吓住，急忙把盖子重新合上。可是那些灾祸已经来不及收回。只有“希望”还留在罐中，没有飞出去。罐子重新合上以后，那些灾祸已经留在了人间。"
+      ]
+    },
     themes: [text("curiosity", "好奇"), text("punishment", "惩罚"), text("hope", "希望")],
     imageUrl: "/story-artwork/pandora.webp",
     tags: [text("origin", "起源"), text("hope", "希望"), text("gods", "诸神"), text("forbidden knowledge", "禁忌知识")],
@@ -65,6 +89,18 @@ export const stories: Story[] = [
       "Anansi stories travel across West Africa and the African diaspora, often using humor and reversal to question pride and authority.",
       "阿南西故事流传于西非及非洲离散社群，常用幽默与反转来质疑骄傲和权威。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Nyame keeps all the wisdom in the world inside a single pot and gives it to Anansi. He tells the spider to carry that wisdom out and share it with everyone. Anansi decides that he would rather keep the pot for himself. He takes it home and hides it from the rest of the world.",
+        "Still afraid that someone may reach it, he plans to hang the pot high in a tree. He ties it against the front of his body and begins to climb. The pot keeps knocking against the trunk and makes the climb awkward. Anansi's young son looks up and tells him the pot would be easier to carry on his back.",
+        "At once Anansi realizes that another person has found the wiser answer before he did. Angry that he does not possess all wisdom after all, he throws the pot down. The pot breaks open on the ground. Wisdom spills out everywhere, and no single person can keep it alone again."
+      ],
+      zh: [
+        "恩雅梅把世上的全部智慧装进一个罐子里，然后交给阿南西。天神原本要他把这份智慧带出去，分给世上的人。阿南西却起了私心，想把罐子永远留给自己。于是他把罐子带回家，藏了起来。",
+        "可他还是担心别人会找到这个罐子，于是决定把它挂到高树顶上。阿南西把罐子绑在胸前，开始往树上爬。罐子一下一下撞在树干上，让他怎么爬都不顺。阿南西的儿子在下面看着，说把罐子背在身后会更容易一些。",
+        "阿南西这才明白，原来别人已经先想到了更聪明的办法。他又气又恼，觉得自己并没有独占全部智慧。于是他把罐子从树上摔了下去。罐子碎开以后，里面的智慧散落四方，再也没有谁能把它一个人占尽。"
+      ]
+    },
     themes: [text("sharing", "分享"), text("pride", "骄傲"), text("wit", "机智")],
     imageUrl: "/story-artwork/anansi-wisdom.webp",
     tags: [text("wisdom", "智慧"), text("trickster", "骗子英雄"), text("sharing", "分享"), text("spider", "蜘蛛")],
@@ -87,6 +123,18 @@ export const stories: Story[] = [
       "Beowulf survives in a single Old English manuscript, where heroic fame, mortality, and monster-fighting sit beside Christian reflection.",
       "《贝奥武夫》仅存于一部古英语手稿中，将英雄名望、凡人死亡与屠怪壮举，与基督教式反思并置。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "King Hrothgar builds the great hall Heorot, where his warriors feast and listen to songs. The noise and joy anger Grendel, a monster who lives outside the settlement. Night after night Grendel enters the hall and carries off Hrothgar's men. The attacks empty Heorot and leave the king unable to protect his people.",
+        "News of the trouble reaches Beowulf, a Geatish warrior, and he sails to Denmark with chosen companions. Hrothgar welcomes him, remembering past loyalty between their families. Beowulf says he will fight Grendel without sword or shield because the monster attacks with his bare hands. That night he waits in the hall after the others have gone to sleep.",
+        "When Grendel bursts in, Beowulf seizes him in a grip the monster cannot break. The two struggle through the hall until Beowulf tears Grendel's arm from its socket. Mortally wounded, Grendel flees back to his lair and dies there. Hrothgar hangs the arm in Heorot, and the Danes celebrate their deliverance."
+      ],
+      zh: [
+        "赫罗斯加王建起宏伟的赫奥洛特王厅，让武士们在里面饮宴听歌。厅中的喧闹与欢乐激怒了住在外面的怪物格伦德尔。它一到夜里就闯进王厅，接连掳走赫罗斯加的部下。久而久之，赫奥洛特几乎空了下来，国王也无法再保护众人。",
+        "贝奥武夫听到这场灾祸后，带着挑选出的伙伴从盖特人之地航海来到丹麦。赫罗斯加记得两家往日的情分，因此欢迎他的到来。贝奥武夫说自己不用刀剑和盾牌，只凭双手去迎战格伦德尔。到了夜里，他留在厅中，等其他人都睡下以后守候怪物出现。",
+        "格伦德尔冲进王厅时，贝奥武夫一把抓住了它，让它怎么也挣脱不开。两者在厅中激烈扭打，直到贝奥武夫把怪物的手臂硬生生扯了下来。格伦德尔身受致命重伤，逃回巢穴后死去。赫罗斯加把那条手臂挂在赫奥洛特，丹麦人也为这场解救举行庆贺。"
+      ]
+    },
     themes: [text("fame", "名望"), text("mortality", "死亡"), text("heroism", "英雄气概")],
     imageUrl: "/story-artwork/beowulf-grendel.webp",
     tags: [text("hero", "英雄"), text("monster", "怪物"), text("hall", "王厅"), text("fate", "命运")],
@@ -153,6 +201,18 @@ export const stories: Story[] = [
       "The Epic of Gilgamesh is one of the oldest surviving long narratives, preserving Mesopotamian ideas about kingship, grief, and human limits.",
       "《吉尔伽美什史诗》是现存最古老的长篇叙事之一，保存了美索不达米亚关于王权、悲伤与人类极限的观念。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Gilgamesh rules Uruk with great strength, and the people ask the gods to check him. The gods create Enkidu, a wild man who grows up among animals. After Enkidu comes to the city, he wrestles Gilgamesh and the two become close friends. Together they decide to seek fame by traveling to the Cedar Forest.",
+        "There they fight Humbaba, the forest guardian, and kill him despite his pleas. When Gilgamesh later rejects Ishtar, she sends the Bull of Heaven against Uruk. Gilgamesh and Enkidu kill the bull as well. The gods then decree that Enkidu must die, and his death leaves Gilgamesh shattered.",
+        "Unable to accept that any human must die, Gilgamesh sets out to find Utnapishtim, who survived the great flood. He crosses dangerous lands and waters until he reaches the old man and hears how the flood survivor gained endless life. Gilgamesh fails the test of staying awake and then loses a plant that could restore youth when a serpent steals it. He returns to Uruk with empty hands and looks upon the city walls he built."
+      ],
+      zh: [
+        "吉尔伽美什以强大的力量统治乌鲁克，城中百姓于是向诸神求助。诸神造出了在野外与兽群同住的恩奇都来制衡他。恩奇都来到城里后，先与吉尔伽美什摔跤，随后两人成了亲密的朋友。他们决定一起前往雪松林，以壮举赢得名声。",
+        "到了雪松林，他们与守林者洪巴巴交战，并在对方求饶后仍将其杀死。后来吉尔伽美什拒绝了伊什塔尔，她便把天之公牛放到乌鲁克城中。吉尔伽美什和恩奇都又合力杀死了公牛。诸神因此判定恩奇都必须死去，他的死亡也让吉尔伽美什彻底崩溃。",
+        "吉尔伽美什无法接受人终有一死，于是动身去寻找曾在大洪水中幸存的乌特纳比什廷。他越过危险的土地与水域，终于见到老人，并听他说起自己如何得到长生。吉尔伽美什没能通过保持清醒的考验，后来又让能恢复青春的植物被一条蛇偷走。最终他两手空空回到乌鲁克，只能望着自己建起的城墙。"
+      ]
+    },
     themes: [text("grief", "悲痛"), text("mortality", "死亡"), text("kingship", "王权")],
     imageUrl: "/story-artwork/gilgamesh.webp",
     tags: [text("friendship", "友情"), text("mortality", "死亡"), text("king", "国王"), text("quest", "追寻")],
@@ -175,6 +235,18 @@ export const stories: Story[] = [
       "This Shinto story connects divine light with performance, ceremony, and the restoration of balance after cosmic withdrawal.",
       "这个神道故事把神圣光明与表演、仪式，以及宇宙失衡后的重新恢复联系在一起。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Amaterasu rules the heavens with light, but her brother Susanoo behaves with growing violence and disorder. He wrecks the rice fields, breaks sacred boundaries, and throws the court into fear. At last he flings a flayed horse into the weaving hall where Amaterasu's attendants are working. Shocked and enraged, Amaterasu hides herself inside a cave and seals the entrance.",
+        "As soon as she disappears, the world falls into darkness and the gods gather to find a way to draw her out. They hang jewels and a mirror before the cave and prepare a noisy celebration. The goddess Ame-no-Uzume climbs onto a tub and begins a wild dance. The other gods laugh so loudly that the cave echoes with their voices.",
+        "Hearing the uproar, Amaterasu opens the rock door a little and asks why everyone is rejoicing. The gods tell her that a greater goddess has appeared and show her the mirror. When she leans forward to look, the strong god Tajikarao pulls her into the open. The gods block the cave behind her, and light returns to heaven and earth."
+      ],
+      zh: [
+        "天照以光明统御高天原，但她的弟弟素戋呜尊越来越狂暴无序。他毁坏田地，冲破神圣的界限，也让神庭上下人人不安。最后他把一匹剥了皮的马扔进织殿，那时天照的侍女们正在里面劳作。天照又惊又怒，便躲进岩洞，并把洞口封了起来。",
+        "她一消失，世界立刻陷入黑暗，众神也聚在一起商量如何把她引出来。他们在洞前挂起珠玉和镜子，又安排了一场热闹的庆典。天宇受卖命站到木桶上，跳起夸张而欢闹的舞。周围诸神放声大笑，笑声在岩洞前不断回荡。",
+        "天照听见外面的喧闹，便微微推开石门，询问众神为何这样高兴。众神告诉她，外面出现了一位比她更辉煌的女神，并把镜子给她看。她探身向前看自己的倒影时，天手力男神立刻把她拉了出来。众神随后封住洞口，光明也重新回到了天地之间。"
+      ]
+    },
     themes: [text("ritual", "仪式"), text("renewal", "复归"), text("light", "光明")],
     imageUrl: "/story-artwork/amaterasu-cave.webp",
     tags: [text("sun", "太阳"), text("ritual", "仪式"), text("mirror", "镜子"), text("shinto", "神道")],
@@ -241,6 +313,18 @@ export const stories: Story[] = [
       "Arthurian legend blends possible post-Roman memory with later medieval romance, creating a ruler who is always partly historical and partly imagined.",
       "亚瑟传说把后罗马时代的可能历史记忆与中世纪骑士传奇融合，塑造出一位既像历史人物又像想象造物的君王。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Arthur is born to Uther Pendragon and is secretly placed in the household of Sir Ector while he is still a child. He grows up there beside Ector's son Kay and does not know his royal birth. After Uther dies, no clear heir can unite the realm. The land remains unsettled while great lords compete for power.",
+        "At Christmas, a sword appears fixed in a stone beneath an anvil, bearing words that say the true king can draw it out. Many noblemen try to pull it free, but none can move it. When Kay needs a sword before a tournament, Arthur goes to fetch one for him. Not knowing what it is, he draws the sword from the stone with ease.",
+        "Sir Ector and Kay realize what has happened and bring Arthur before the lords and clergy. To remove doubt, Arthur pulls the sword free again and again while others continue to fail. The people slowly accept that he is the rightful king, and he is crowned. Once Arthur takes the throne, his reign begins the line of stories later centered on Camelot and his knights."
+      ],
+      zh: [
+        "亚瑟是乌瑟王的儿子，但他年幼时就被秘密送到艾克特爵士家中抚养。他和艾克特的儿子凯一起长大，却一直不知道自己的王族身世。等乌瑟去世以后，王国里没有明确的继承人能够统一众人。于是这片土地长久动荡，各地贵族也开始争夺权力。",
+        "圣诞节时，一把剑出现在石头与铁砧之间，上面的字说明真正的国王才能把它拔出。许多贵族都上前尝试，却没有一个人能让它动一下。后来凯要参加比武，一时找不到佩剑，亚瑟便替他出去取剑。亚瑟并不知道那把剑的重要性，却轻而易举地把它从石中拔了出来。",
+        "艾克特和凯看见这一幕，便把亚瑟带到贵族和教士面前。为了消除怀疑，亚瑟当众一次又一次把剑拔出，而其他人仍旧失败。人们这才逐渐承认他就是合法的君王，并为他加冕。亚瑟登上王位之后，后来围绕卡美洛与圆桌骑士展开的故事也由此开始。"
+      ]
+    },
     themes: [text("legitimacy", "正统性"), text("destiny", "命运"), text("recognition", "认同")],
     imageUrl: "/story-artwork/king-arthur.webp",
     tags: [text("king", "国王"), text("sword", "剑"), text("destiny", "命运"), text("camelot", "卡美洛")],
@@ -263,6 +347,18 @@ export const stories: Story[] = [
       "The Osiris cycle shaped Egyptian ideas about death, rightful rule, and ritual restoration over many centuries.",
       "奥西里斯神话循环在漫长岁月里塑造了埃及人对死亡、正统统治与仪式性复原的理解。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Osiris rules Egypt as king, and his brother Set grows jealous of him. Set prepares a beautiful chest made to fit Osiris exactly and brings it to a feast. He promises to give the chest to whoever fits inside it. When Osiris lies down in it, Set slams the lid shut and throws the chest into the river.",
+        "Isis searches for her husband and finally finds the chest with Osiris's body inside. She hides it for a time, but Set discovers it and cuts the body into pieces. He scatters those pieces across the land to keep Osiris from returning. Isis and her sister Nephthys travel through Egypt and gather the pieces one by one.",
+        "With magic and mourning rites, Isis puts Osiris together again and briefly restores him to life. In that meeting she conceives Horus, who will later grow up to challenge Set. Osiris does not remain among the living but goes to the realm of the dead. There he becomes the ruler who judges the souls of the dead in the underworld."
+      ],
+      zh: [
+        "奥西里斯统治着埃及，他的兄弟塞特却因此越来越嫉妒他。塞特做了一只尺寸正好贴合奥西里斯身体的华美箱子，并把它带到宴会上。他声称谁能躺进去，就把箱子送给谁。等奥西里斯躺下以后，塞特立刻盖紧箱盖，把箱子投入河中。",
+        "伊西斯四处寻找丈夫，最终找到了装着奥西里斯遗体的箱子。她一度把遗体藏了起来，但塞特后来发现此事，又把尸身切成许多块。他把这些碎块撒向各地，不让奥西里斯再回来。伊西斯和奈芙蒂斯于是走遍埃及，把散落的遗体一块块找回。",
+        "伊西斯借助法术和哀悼仪式，把奥西里斯重新拼合起来，并让他短暂复生。也正是在那次相会中，她怀上了后来长大后会挑战塞特的荷鲁斯。奥西里斯没有继续留在人间，而是前往死者的国度。此后他在那里成为统治冥界、审判亡魂的王。"
+      ]
+    },
     themes: [text("restoration", "复原"), text("mourning", "哀悼"), text("afterlife", "来世")],
     imageUrl: "/story-artwork/osiris.webp",
     tags: [text("afterlife", "来世"), text("isis", "伊西斯"), text("kingship", "王权"), text("resurrection", "复生")],
@@ -867,6 +963,18 @@ export const stories: Story[] = [
       "Though the tale has many global relatives, the slipper-and-ball version became especially influential through Charles Perrault's retelling.",
       "这个故事在全球有许多近亲版本，但“舞会与水晶鞋”的形态经由佩罗改写后尤其深远。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "After her father dies, Cinderella is left in the care of a stepmother and two stepsisters who make her work as a servant in her own home. She sleeps by the hearth, wears rough clothes, and endures their constant scorn. Even so, she continues to do the household tasks they give her. Her life changes when the king announces a ball so the prince may choose a bride.",
+        "Cinderella wants to go, but her stepmother refuses and leaves her behind while the others ride to the palace. Then her fairy godmother appears and gives her a gown, glass slippers, and a carriage made by magic. She warns Cinderella that everything will return to its old form at midnight. At the ball the prince dances only with Cinderella and cannot learn who she is before she runs away.",
+        "On the second night she stays too long and flees as the clock strikes twelve. One glass slipper falls from her foot on the palace steps, and the prince keeps it. He sends men across the land to find the woman whose foot will fit the slipper. After the stepsisters fail, Cinderella tries it on, the slipper fits, and she is taken to the palace to marry the prince."
+      ],
+      zh: [
+        "父亲去世以后，灰姑娘落到继母和两个继姐手里，在自己家中也被当成佣人使唤。她睡在炉边，穿着粗旧衣裳，还要忍受她们不断的轻视。即便如此，她还是日日做完那些繁重的家务。直到国王宣布举办舞会，为王子挑选新娘，她的生活才出现转机。",
+        "灰姑娘也想去参加舞会，可继母拒绝了她，把她独自留在家里。就在这时，仙女教母出现了，用魔法为她变出礼服、水晶鞋和马车。仙女提醒她，一到午夜，一切都会恢复原样。到了舞会上，王子只与灰姑娘共舞，却还没来得及问出她的身份，她就匆忙离开了。",
+        "第二天晚上，灰姑娘停留得太久，等钟声敲响十二下时才急忙逃走。她的一只水晶鞋落在宫殿台阶上，被王子留了下来。王子随后派人走遍全国，要找出那位能穿上这只鞋的女子。两个继姐都失败以后，灰姑娘穿上了鞋，正合适，于是被带进宫中嫁给了王子。"
+      ]
+    },
     themes: [text("transformation", "蜕变"), text("kindness", "善良"), text("recognition", "认同")],
     tags: [text("slipper", "水晶鞋"), text("ball", "舞会"), text("fairy godmother", "仙女教母"), text("rags to royalty", "逆转命运")],
     sourceUrl: "https://en.wikipedia.org/wiki/Cinderella"
@@ -888,6 +996,18 @@ export const stories: Story[] = [
       "Collected by the Brothers Grimm, the tale persists through its charged images of the mirror, the forest, the apple, and suspended sleep.",
       "经由格林兄弟整理后，这个故事因魔镜、森林、苹果与沉睡等强烈意象而持续流传。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "A queen once wishes for a daughter with skin as white as snow, lips as red as blood, and hair as black as ebony. After the child is born, the queen dies, and a new queen becomes Snow White's stepmother. This queen owns a magic mirror that always tells her who is fairest in the land. When the mirror names Snow White instead of her, the queen orders a huntsman to kill the girl.",
+        "The huntsman cannot do it and tells Snow White to flee into the forest. She wanders until she finds a small house belonging to seven dwarfs and begins living with them. The queen learns from the mirror that Snow White is still alive and goes after her in disguise. At last she tricks Snow White into biting a poisoned apple, and the girl falls into a deathlike sleep.",
+        "The dwarfs place Snow White in a glass coffin because she still looks alive. A prince later comes to the forest, sees her, and asks that the coffin be carried away. As his servants move it, the piece of apple is dislodged from Snow White's throat. She wakes, the prince takes her with him, and the queen's pursuit comes to an end."
+      ],
+      zh: [
+        "一位王后曾希望自己生下的女儿皮肤白如雪，嘴唇红如血，头发黑如乌木。孩子出生后不久，王后去世，新的王后成了白雪公主的继母。这位王后拥有一面总会说出谁最美的魔镜。当魔镜说白雪公主比她更美时，她便命令猎人把女孩带出去杀掉。",
+        "猎人下不了手，于是放走了白雪公主，并叫她逃进森林。白雪公主一路走到七个小矮人的小屋里，从此与他们住在一起。王后从魔镜那里得知她还活着，便乔装改扮去追杀她。最后她骗白雪公主咬下一口毒苹果，让女孩陷入了像死去一样的沉睡。",
+        "小矮人见白雪公主仍像活着一样，便把她安放在玻璃棺中。后来一位王子来到森林，看见她后，请人把棺木抬走。仆人搬动棺木时，卡在白雪公主喉中的苹果碎块被震了出来。白雪公主随即醒来，王子带她离开，王后的追逼也到此结束。"
+      ]
+    },
     themes: [text("envy", "嫉妒"), text("innocence", "纯真"), text("return", "归返")],
     tags: [text("mirror", "魔镜"), text("apple", "苹果"), text("forest", "森林"), text("dwarfs", "小矮人")],
     sourceUrl: "https://en.wikipedia.org/wiki/Snow_White"
@@ -909,6 +1029,18 @@ export const stories: Story[] = [
       "Versions by Perrault and the Grimms frame the tale differently, but both keep its warning about appetite, trust, and vulnerable travel.",
       "佩罗和格林的版本气质不同，但都保留了它对欲望、信任与脆弱旅程的警示。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Little Red Riding Hood is sent through the woods to bring food to her sick grandmother. Before she leaves, her mother tells her to stay on the path and go straight to the cottage. On the way she meets a wolf, who speaks to her gently and asks where she is going. After she tells him, the wolf runs ahead by a shorter road.",
+        "The wolf reaches the grandmother's house first and gets inside. He swallows the old woman and puts on her clothes, then waits in her bed. When Little Red Riding Hood arrives, she notices that her grandmother looks and sounds strange. As she asks about the big ears, big eyes, and big teeth, the wolf leaps up and swallows her too.",
+        "A passing woodcutter hears the noise and enters the cottage to see what has happened. He cuts open the sleeping wolf and pulls out the grandmother and Little Red Riding Hood alive. They fill the wolf's body with heavy stones before he wakes. When the wolf tries to run away, he falls dead, and the girl returns home with her grandmother."
+      ],
+      zh: [
+        "小红帽受母亲之托，要穿过树林给生病的外婆送食物。出门前，母亲叮嘱她走直路，不要偏离小径。路上她遇见一只狼，狼装得很温和，问她要去哪里。小红帽把目的地告诉它以后，狼便沿着更短的路先跑走了。",
+        "狼先到了外婆家，骗开房门后闯了进去。它吞下外婆，穿上外婆的衣服，躺到床上等小红帽过来。小红帽进门后，发现外婆的样子和声音都很奇怪。她一边问外婆为什么耳朵这么大、眼睛这么大、牙齿这么大，一边慢慢靠近，结果被狼扑上来吞了下去。",
+        "一名路过的樵夫听见屋里的动静，便进门查看发生了什么。他剖开熟睡的狼，把外婆和小红帽都活着救了出来。随后他们往狼的肚子里装满沉重的石头，等它醒来。狼想逃走时立刻倒地死去，小红帽也和外婆一起平安回了家。"
+      ]
+    },
     themes: [text("danger", "危险"), text("trust", "信任"), text("warning", "警示")],
     tags: [text("wolf", "狼"), text("forest", "森林"), text("grandmother", "外婆"), text("disguise", "伪装")],
     sourceUrl: "https://en.wikipedia.org/wiki/Little_Red_Riding_Hood"
@@ -1961,6 +2093,18 @@ export const stories: Story[] = [
       "One of China's most beloved love legends, the story lives through opera, storytelling, and the charged setting of West Lake.",
       "《白蛇传》是中国最受喜爱的爱情传说之一，经由戏曲、说书与西湖场景不断焕发生命力。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "After years of practice, the White Snake spirit takes human form and becomes Bai Suzhen. By West Lake she meets Xu Xian, and the two fall in love. Bai Suzhen marries him and lives as his wife among humans. Xiaoqing remains beside her as her close companion.",
+        "The monk Fahai suspects that Bai Suzhen is not human and tries to separate the couple. During the Dragon Boat Festival, Xu Xian sees her true form and dies of shock. Bai Suzhen risks her life to steal a healing herb and brings him back. Later Fahai imprisons Xu Xian at Jinshan Temple, and Bai Suzhen goes there to rescue him.",
+        "She summons wind and water against the monastery, but the fight fails and many people are harmed by the flood. After a short reunion with Xu Xian, Bai Suzhen becomes pregnant. Fahai then traps her beneath Leifeng Pagoda. In later tellings, her son grows up and finally helps bring the family together again."
+      ],
+      zh: [
+        "白蛇修炼多年后化为人形，自称白素贞。她在西湖边遇见许仙，两人由此相爱。白素贞嫁给许仙，在人间做了他的妻子。小青也一直陪在她身边。",
+        "法海怀疑白素贞并非凡人，一心想拆散这对夫妻。端午那天，许仙看见白素贞现出原形，当场惊死。白素贞冒险去盗仙草，把他救了回来。后来法海又把许仙困在金山寺，白素贞便赶去救他。",
+        "她在寺前兴风起浪，与法海相斗，可这场水战最终没有成功，还连累了许多百姓。白素贞与许仙短暂重聚后怀了身孕。随后法海把她镇在雷峰塔下。到了后来的讲述里，她的儿子长大成人，才让这个家庭重新团聚。"
+      ]
+    },
     themes: [text("love", "爱情"), text("taboo", "禁忌"), text("devotion", "痴情")],
     tags: [text("snake spirit", "蛇妖"), text("west lake", "西湖"), text("pagoda", "雷峰塔"), text("monk", "法海")],
     sourceUrl: "https://en.wikipedia.org/wiki/Legend_of_the_White_Snake"
@@ -1982,6 +2126,18 @@ export const stories: Story[] = [
       "Chinese myth remembers Nuwa as both creator and cosmic repairer, linking human origins to a world that can fracture and be mended.",
       "中国神话中的女娲既是造物者也是补天者，把人类起源与可破裂、可修补的宇宙联系起来。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "After heaven and earth take shape, Nuwa walks through an empty world. She feels lonely among mountains, rivers, and animals. She kneads yellow earth with her hands and shapes the first human figures. When she sets them down, the figures come alive.",
+        "Nuwa keeps making people one by one, but the labor is slow. She dips a cord into mud and swings it across the land. The droplets that fall from the cord also turn into human beings. In this way people spread across the earth in great numbers.",
+        "In another part of her myth, Gonggong smashes the mountain that supports the sky and throws the world into disorder. Fire, flood, and wild beasts then trouble the land below. Nuwa melts five-colored stones to mend the sky and uses a giant turtle's legs to support the four corners of heaven. After that repair, the world becomes fit for human life again."
+      ],
+      zh: [
+        "天地初分以后，女娲走在空荡荡的世界里。她看见山川草木和飞禽走兽，却仍觉得寂寞。于是她捏起黄土，用手做出一个个人形。等这些泥人落到地上时，他们便活了起来。",
+        "女娲一个一个地造人，可这样做得太慢。她后来把绳子浸进泥里，再甩向大地。飞散出去的泥点也都变成了人。就这样，人一点点布满了世间。",
+        "在她的另一段神话里，共工撞断了支撑天空的山，天地因此失序。火灾、洪水和猛兽一起侵扰人间。女娲熔炼五色石去补天，又斩下巨龟的四足支住四极。等她把这一切修补好以后，人世才重新安定下来。"
+      ]
+    },
     themes: [text("creation", "创造"), text("repair", "修补"), text("origins", "起源")],
     tags: [text("clay", "泥土"), text("creation", "造人"), text("goddess", "女神"), text("origin", "起源")],
     sourceUrl: "https://en.wikipedia.org/wiki/N%C3%BCwa"
@@ -2003,6 +2159,18 @@ export const stories: Story[] = [
       "Drawing from popular religion and later novels, Nezha's story remains one of the most energetic Chinese legends of rebellion.",
       "哪吒故事吸纳了民间信仰与后世小说资源，成为中国最富动势的反叛传奇之一。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Nezha is born after a long pregnancy and emerges from a flesh ball already touched by divine power. He grows up in Li Jing's household and learns magical arts from his immortal teacher. Before long he carries the red armillary sash and the cosmic ring. One day he goes to the seashore to bathe and play.",
+        "The disturbance reaches the palace of the Dragon King of the Eastern Sea. Nezha kills Ao Bing, the dragon prince, and clashes with the Dragon King's forces. The Dragon King goes to heaven to accuse Nezha's family and brings disaster toward them. To spare his parents, Nezha cuts off his flesh and returns his life to those who gave it.",
+        "His spirit later seeks help from Taiyi Zhenren. The immortal makes him a new body from lotus roots and lotus leaves. Nezha rises again with his fire-tipped spear and wind-fire wheels. He returns to battle the Dragon King's side and continues as a young divine warrior."
+      ],
+      zh: [
+        "哪吒在母亲漫长怀胎之后出世，一生下来就带着神异的力量。他在李靖家中长大，又跟随太乙真人学得法术。后来他有了混天绫和乾坤圈这些法宝。一天，他来到海边洗澡玩耍。",
+        "这场动静惊到了东海龙王的水府。哪吒打死龙王之子敖丙，又和龙宫的兵将冲突起来。龙王上天告状，把灾祸引向李靖一家。为了不连累父母，哪吒剔骨还父、削肉还母，当场自尽。",
+        "后来他的魂魄向太乙真人求助。太乙真人用莲藕和荷叶为他重塑身体。哪吒重新站起，拿回火尖枪和风火轮。此后他再去迎战龙王一方，继续以少年神将的身份出现。"
+      ]
+    },
     themes: [text("rebellion", "反抗"), text("sacrifice", "牺牲"), text("rebirth", "重生")],
     tags: [text("dragon king", "龙王"), text("sea", "东海"), text("lotus body", "莲花化身"), text("hero", "英雄")],
     sourceUrl: "https://en.wikipedia.org/wiki/Nezha"
@@ -2024,6 +2192,18 @@ export const stories: Story[] = [
       "This Qixi story connects starlore with romance, turning the night sky into a calendar of longing and reunion.",
       "这个七夕故事把星宿传说与爱情连在一起，让夜空成为思念与相会的历法。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Niulang is a poor cowherd who lives under the harsh rule of his brother's household. An old ox tells him that heavenly maidens will come down to bathe. Niulang hides Zhinu's robe and meets her by the water. Zhinu agrees to stay with him, and the two marry.",
+        "They live together on earth and have a son and a daughter. In heaven, the Queen Mother learns that a weaving goddess has married a mortal. She descends, takes Zhinu away, and brings her back to the sky. The old ox tells Niulang to use its hide so he can follow after her.",
+        "Niulang carries the children and chases his wife into the heavens. The Queen Mother draws the Milky Way across the sky and separates the couple on opposite banks. Their grief moves a flock of magpies to form a bridge once each year. On the seventh night of the seventh month, the family is allowed to meet before they part again."
+      ],
+      zh: [
+        "牛郎是个贫苦的放牛人，长期受哥哥和嫂子的苛待。后来家里的老牛告诉他，天上的仙女会下凡到河边洗澡。牛郎藏起了织女的衣裳，就这样在水边见到了她。织女答应留下来，两人也因此成了夫妻。",
+        "他们在人间生活，还生下了一儿一女。天上的王母得知织女嫁给了凡人，立刻下界把她带回天庭。老牛在临死前告诉牛郎，只要披上自己的皮，就能追上去。牛郎便挑着两个孩子，沿着天路去追妻子。",
+        "等他快要追到时，王母拔下发簪，在天空划出一道银河。夫妻二人从此被分在河的两边，只能隔水相望。他们的悲苦感动了成群的喜鹊，喜鹊每年都会飞来搭成一座桥。到了七月初七这一天，一家人才得以在鹊桥上相会一次。"
+      ]
+    },
     themes: [text("longing", "思念"), text("reunion", "重逢"), text("cosmic love", "天上之爱")],
     tags: [text("milky way", "银河"), text("magpies", "喜鹊"), text("lovers", "恋人"), text("qixi", "七夕")],
     sourceUrl: "https://en.wikipedia.org/wiki/The_Cowherd_and_the_Weaver_Girl"
@@ -2045,6 +2225,18 @@ export const stories: Story[] = [
       "As a creation myth, Pangu gives monumental bodily scale to the emergence of order, space, and the material world.",
       "作为创世神话，盘古以巨大的身体尺度赋予秩序、空间与物质世界的诞生一种震撼感。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "At the beginning, heaven and earth are mixed together inside a dark cosmic egg. Pangu sleeps within it while the chaos slowly changes. When he wakes, he takes an axe and splits the mass apart. The light parts rise to become heaven, and the heavy parts sink to become earth.",
+        "Fearing that the two halves will close again, Pangu stands between them. Each day heaven rises higher, earth grows thicker, and Pangu grows with them. He keeps pushing the world apart for thousands of years. At last the distance is firm and the structure of the world holds.",
+        "Then Pangu falls, and his body changes into parts of the cosmos. His breath becomes wind and cloud, his voice becomes thunder, and his eyes become sun and moon. His blood turns into rivers, his flesh becomes soil, and his bones become mountains. The living world remains after the giant's body is transformed."
+      ],
+      zh: [
+        "天地还没有分开的时候，世界像一个黑暗的大蛋，盘古就在里面沉睡。混沌慢慢变化，直到盘古醒来。醒来之后，他举起斧头，把这团混沌猛地劈开。轻清的东西上升成天，沉重的东西下沉成地。",
+        "盘古担心天和地重新合拢，便站在它们中间支撑着。天一天比一天高，地一天比一天厚，盘古自己也随之长大。他就这样把天地顶开了许多年。直到天地彻底稳固，世界的格局才定下来。",
+        "等这一切完成以后，盘古倒下了，他的身体开始化作万物。他的气息成了风和云，声音成了雷霆，双眼成了日月。他的血液变成江河，肌肉变成土地，骨骼变成山岳。这个世界最后就留在了巨人化身而成的万物之间。"
+      ]
+    },
     themes: [text("creation", "创世"), text("order", "秩序"), text("cosmos", "宇宙")],
     tags: [text("heaven and earth", "天地"), text("giant", "巨人"), text("origin", "起源"), text("cosmos", "宇宙")],
     sourceUrl: "https://en.wikipedia.org/wiki/Pangu"
@@ -3452,6 +3644,18 @@ export const stories: Story[] = [
       "Often called China's Romeo and Juliet, the story survives through opera, music, and local commemorative landscapes.",
       "这个故事常被称作中国的罗密欧与朱丽叶，并通过戏曲、音乐与地方纪念地持续流传。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Zhu Yingtai wants to study and leaves home disguised as a young man. On the road she meets Liang Shanbo, and the two become classmates. They study together for years without Liang discovering her identity. During that time Zhu comes to love him.",
+        "When Zhu returns home, her family arranges her marriage to Ma Wencai. Liang later visits and learns that his old school companion is a woman. The two confess their feelings, but the marriage arrangement cannot be changed. Liang falls ill from grief and dies.",
+        "On the day Zhu is taken to her wedding, the procession passes Liang's grave. She stops to mourn before the tomb. The grave suddenly opens, and Zhu throws herself into it to join Liang. Two butterflies rise from the tomb and fly away together."
+      ],
+      zh: [
+        "祝英台想外出求学，便女扮男装离开家门。路上她遇见梁山伯，两人从此成为同窗。三年间，他们一起读书行路，梁山伯始终不知道她是女子。祝英台也在这段相处里爱上了梁山伯。",
+        "等祝英台回到家中，父母却已经替她定下了与马文才的婚事。后来梁山伯前来拜访，才知道昔日同学原来就是女子。两人互诉心意，可婚约已经无法改变。梁山伯因此郁结成病，不久便死去。",
+        "祝英台出嫁那天，迎亲队伍经过梁山伯的坟前。她停下来祭奠，不肯离去。忽然坟墓裂开，祝英台纵身跳了进去。片刻之后，两只蝴蝶从坟中飞出，一起向远处飞去。"
+      ]
+    },
     themes: [text("tragic love", "悲恋"), text("disguise", "伪装"), text("transformation", "化蝶")],
     tags: [text("butterflies", "蝴蝶"), text("students", "同窗"), text("lovers", "恋人"), text("opera", "戏曲")],
     sourceUrl: "https://en.wikipedia.org/wiki/Butterfly_Lovers"
@@ -3708,6 +3912,18 @@ export const stories: Story[] = [
       "The myth links heroic skill with solar order, drought anxiety, and the dangerous excess of heavenly power.",
       "这则神话把英雄技艺与太阳秩序、旱灾焦虑和天界力量的过剩危险联系起来。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "In ancient times, ten suns rise together into the sky. Their heat burns crops, dries rivers, and scorches the earth. The archer Hou Yi takes up his bow to save the world. He shoots down nine of the suns and leaves one remaining in heaven.",
+        "After the disaster ends, Hou Yi becomes known for his skill. In many versions he later receives an elixir of immortality. The medicine is kept in his household, where others begin to covet it. The order of the home is broken when the elixir is taken or used.",
+        "In one common telling, Chang'e drinks the elixir and rises to the moon. Hou Yi remains on earth and can only look up at her from below. The world keeps its single sun, but the couple no longer lives together. The story stays joined to the sun in the sky and the moon above the night."
+      ],
+      zh: [
+        "上古时候，天上同时升起了十个太阳。它们把庄稼晒焦，把江河蒸干，也把大地烤得几乎无法生存。于是神射手后羿举起弓箭，要为天下除去这场灾祸。他一连射下九个太阳，只留下一个继续照耀人间。",
+        "等这场灾难过去后，后羿因箭术闻名。许多版本里，他后来得到了长生不死的仙药。仙药被留在家中，也引来了别人的觊觎。等这瓶药被取走或服下以后，家中的安稳便被打破了。",
+        "在最常见的讲法里，嫦娥吞下仙药，飞到了月宫。后羿留在人间，只能抬头望向夜空中的她。世上从此只剩一个太阳，可夫妻二人也不能再同住。这个故事后来便一直连着白日的太阳和夜里的月亮。"
+      ]
+    },
     themes: [text("order", "秩序"), text("skill", "技艺"), text("rescue", "拯救")],
     tags: [text("sun", "太阳"), text("archer", "射手"), text("drought", "旱灾"), text("heaven", "天界")],
     sourceUrl: "https://en.wikipedia.org/wiki/Hou_Yi"
@@ -3729,6 +3945,18 @@ export const stories: Story[] = [
       "Jingwei's impossible labor became a Chinese emblem of grief transformed into persistence against overwhelming force.",
       "精卫不可能完成的劳作，成为中国文化中把悲伤化成不屈坚持的象征。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "The young daughter of Emperor Yan goes out to the Eastern Sea in many tellings. A sudden wave overturns her boat, and she drowns in the water. After death her spirit becomes a small bird named Jingwei. The bird keeps crying over the sea that took her life.",
+        "Jingwei picks up twigs, pebbles, and bits of wood in her beak. She flies over the water and drops them into the waves. Day after day she repeats the same labor. The sea remains vast, but the bird does not stop.",
+        "Mountains and shorelines stay filled with her flights. She keeps returning with branches and stones no matter how little changes. In later tellings, the task never reaches an end. The story closes with Jingwei still carrying her next piece toward the sea."
+      ],
+      zh: [
+        "许多讲法里，精卫原本是炎帝的小女儿。她去东海游玩时，忽然被海浪卷走，溺死在水中。死后，她的魂魄化成了一只小鸟，名字就叫精卫。它从此一直对夺走自己性命的大海怀着怨恨。",
+        "精卫每天衔着树枝、石子和草木飞到海上。它把嘴里的东西一件件丢进海里。这样单调的劳作日复一日，没有停过。大海依旧辽阔，可这只鸟也始终没有退却。",
+        "山间和海边不断留下它来回飞行的身影。无论大海有没有变化，精卫都会再衔起新的树枝和石子。到了后来的讲述里，这项工作一直都没有结束。故事停下来的时候，精卫仍在飞向大海。"
+      ]
+    },
     themes: [text("persistence", "坚持"), text("grief", "悲伤"), text("defiance", "抗争")],
     tags: [text("bird", "鸟"), text("sea", "大海"), text("stones", "石子"), text("transformation", "化身")],
     sourceUrl: "https://en.wikipedia.org/wiki/Jingwei"
@@ -3750,6 +3978,18 @@ export const stories: Story[] = [
       "The flood-control legend stands at the edge of myth and dynastic memory, explaining political legitimacy through public work.",
       "治水传说站在神话与王朝记忆的交界，用公共劳作解释政治正统。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Great floods spread across the land and overwhelm fields, villages, and river valleys. Gun first tries to hold back the waters, but his method fails. The task then passes to his son Yu. Yu travels across the realm to inspect the mountains, channels, and plains.",
+        "Instead of sealing everything behind walls, Yu chooses to open new courses for the water. He dredges rivers, cuts channels, and leads the flood toward the sea. In later tradition he passes his own home three times without going inside. He keeps working until the land begins to recover.",
+        "When the waters are finally controlled, Yu's labor wins him authority over the realm. Shun yields rule to him, and later accounts treat him as the founder of the Xia dynasty. The story ties rulership to work done for all under heaven. It ends with order restored through rivers that have found their course."
+      ],
+      zh: [
+        "滔天洪水漫过大地，淹没了田地、村落和河谷。最先治水的是鲧，可他的办法没有成功。后来，这项任务落到了儿子禹的身上。大禹走遍天下，去看各处山势、河道和平原。",
+        "他没有一味筑堤堵水，而是选择给洪水开出新的去路。于是他疏浚河流，开凿水道，把泛滥的水一点点引向大海。后来的讲述里，他三过家门而不入，只顾继续治水。就这样，他一直干到山河开始恢复秩序。",
+        "等洪患终于平定以后，大禹因这番劳作获得了统治天下的资格。舜把帝位让给了他，后来的人也把他看作夏朝的开创者。这个故事把王权和为天下出力的劳作连在一起。它最后停在河流各归其道、土地重新安定的结果上。"
+      ]
+    },
     themes: [text("labor", "劳作"), text("legitimacy", "正统性"), text("flood", "洪水")],
     tags: [text("river", "河流"), text("king", "君王"), text("engineering", "治水"), text("dynasty", "王朝")],
     sourceUrl: "https://en.wikipedia.org/wiki/Yu_the_Great"
@@ -3771,6 +4011,18 @@ export const stories: Story[] = [
       "One of China's Four Great Folktales, the legend makes private mourning challenge state power and forced labor.",
       "作为中国四大民间传说之一，它让私人哀痛直面国家权力与徭役之苦。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Meng Jiangnu has barely married Fan Xiliang when officials seize him for labor on the Great Wall. He is taken away to the northern works and never returns. When the weather turns cold, she makes winter clothes for him and sets out to find him. She travels a long distance until she reaches the wall itself.",
+        "At the work site she learns that her husband has already died from exhaustion. His body has been buried beneath the wall with the remains of other laborers. Meng Jiangnu stands before the stones and weeps without stopping. Her grief shakes the structure above the buried dead.",
+        "A section of the Great Wall collapses under her lament. Bones are exposed, and she is finally able to search for her husband's remains. In many versions the emperor hears of her and tries to force her into his power. The story ends with Meng Jiangnu refusing that power and remaining with the loss that the wall cannot hide."
+      ],
+      zh: [
+        "孟姜女刚刚嫁给范喜良，官府就把丈夫抓去修长城。范喜良被押往北方工地，此后再也没有回来。等天气转冷，孟姜女做好寒衣，决定亲自去找他。她走了很远的路，最后终于来到长城脚下。",
+        "到了工地，她才知道丈夫早已死在徭役之中。范喜良的尸骨也和其他劳工一样，被埋在长城下面。孟姜女站在城边痛哭不止。她的哀哭把埋在石墙底下的死亡一起震动出来。",
+        "后来，长城的一段在她的哭声中坍塌。白骨露出地面，她这才得以寻找丈夫的遗骨。许多版本里，皇帝听说她的事后，又想把她据为己有。故事最后停在孟姜女拒绝这种权力，也拒绝让长城掩埋掉丈夫的下落。"
+      ]
+    },
     themes: [text("mourning", "哀悼"), text("loyalty", "忠贞"), text("injustice", "不公")],
     tags: [text("great wall", "长城"), text("tears", "眼泪"), text("husband", "丈夫"), text("empire", "帝国")],
     sourceUrl: "https://en.wikipedia.org/wiki/Meng_Jiangn%C3%BC"
@@ -3792,6 +4044,18 @@ export const stories: Story[] = [
       "As a culture hero and divine farmer, Shennong explains how knowledge of crops and healing entered human life.",
       "作为文化英雄与神圣农者，神农解释了作物和疗愈知识如何进入人类生活。"
     ),
+    narrativeParagraphs: {
+      en: [
+        "Shennong teaches people how to clear fields, sow seed, and raise crops. He also wants to know which plants can heal and which ones can kill. To learn this, he tastes herbs with his own body. Each plant shows its effect on him before he judges it.",
+        "Day after day he tests leaves, roots, stems, and flowers. Some herbs heal him, while others poison him at once. In later tellings he can watch the effects inside a transparent belly. Through repeated trials he separates useful medicines from dangerous plants.",
+        "He keeps tasting until he meets a deadly herb that cannot be countered in time. Even after his death, the knowledge gained through his body remains among the people. Farming and medicine stay joined in the memory of his labor. The story ends with the plants named and the cost borne by Shennong himself."
+      ],
+      zh: [
+        "神农教人开垦土地、播种五谷，也想知道哪些草木能救人，哪些草木会害人。为了弄清这些事，他决定亲自去尝遍百草。每吃下一种植物，他都先用自己的身体承受它的作用。然后他再判断这种草木到底有什么用。",
+        "他一天天去试叶子、根茎、花实。某些草药能替他止痛疗伤，另一些却会立刻让他中毒。后来的讲述里，他甚至能透过自己的肚腹看见药性如何运行。就这样，他在一次次试验中把可用的药和危险的草分了出来。",
+        "可是神农最终还是遇到了一种来不及解救的剧毒。即便如此，他用身体换来的知识还是留在了世间。农耕和医药也因此一直连在他的记忆里。故事停在草木的名字被认出，而代价由神农自己承担下来。"
+      ]
+    },
     themes: [text("healing", "疗愈"), text("sacrifice", "牺牲"), text("knowledge", "知识")],
     tags: [text("herbs", "草药"), text("farmer", "农者"), text("medicine", "医药"), text("testing", "试验")],
     sourceUrl: "https://en.wikipedia.org/wiki/Shennong"
@@ -5469,6 +5733,21 @@ const categoryStoryLanguage: Record<Story["category"], { en: string; zh: string;
   history: { en: "legendary history", zh: "传奇历史", tags: ["memory", "lineage", "place", "inheritance"], tagsZh: ["记忆", "血统", "地点", "传承"] }
 };
 
+const additionalStoryNarratives = {
+  "quinto-sol": {
+    en: [
+      "In Aztec tradition, four earlier suns have already perished, and the world has fallen into darkness again and again. The gods gather at Teotihuacan to decide who will become the new sun. The proud and wealthy Tecuciztecatl and the scarred Nanahuatzin stand before a sacrificial fire, knowing that only self-offering can restart the cosmos. What is at stake is not personal honor alone, but whether a whole age can begin again.",
+      "When the moment comes to leap, Tecuciztecatl hesitates again and again, but Nanahuatzin closes his eyes and throws himself into the flames. He rises from the fire as the new sun, and the other god follows too late, becoming the moon. Yet the sun remains fixed in the sky, so light returns without time truly moving forward. The gods can see radiance above them, but the day has not yet learned how to move.",
+      "To set the Fifth Sun in motion, the other gods also give up their lives, and the wind god drives sun and moon across the heavens. Only then does the present age begin, placing human life inside a cosmos sustained by sacrifice. Human existence is thereafter understood in relation to that first divine offering. For that reason Teotihuacan is remembered not just as an ancient city, but as the sacred landscape where this era first began to move."
+    ],
+    zh: [
+      "在阿兹特克传统里，前四个太阳都已经毁灭，世界一次次陷入黑暗。诸神于是聚到特奥蒂瓦坎，商议谁来成为新的太阳。富有而自负的特库西斯特卡特尔与满身疮痍的纳纳瓦钦都被推到火堆前，准备以自我焚献换来新天体。这场抉择决定的不是一位神的荣耀，而是整个时代能否重新开始。",
+      "轮到纵身入火时，特库西斯特卡特尔一连退缩了几次，纳纳瓦钦却先闭眼跳进烈焰。火光中他升起为新的太阳，迟一步跃入的另一位神随后化成月亮。可太阳高悬之后仍旧不动，天地虽然重新发亮，时间却没有真正开始流转。众神眼前已经有了光，却还没有迎来真正运转起来的白昼。",
+      "为了让第五太阳走上天空，诸神又接连献出自己的生命，风神再把太阳与月亮吹送上路。于是今天这个时代才真正开始，人世也被放进必须以祭献维系的宇宙秩序里。此后的人类生存，也被理解为与这场宇宙性的献祭彼此呼应。墨西哥高原上的特奥蒂瓦坎因此不只是古城遗址，也被记作新太阳起行的神圣地点。"
+    ]
+  }
+};
+
 const usedAdditionalStoryIds = new Set(stories.map((story) => story.id));
 
 function getAdditionalStoryId(baseId: string) {
@@ -5507,6 +5786,7 @@ stories.push(
         `This ${regionEn} entry broadens the atlas with ${cultureEn}, keeping ${language.tags[3]} tied to place, performance, and inherited imagination.`,
         `这条${regionZh}条目以${cultureZh}拓展故事地图，让${language.tagsZh[3]}与地点、讲述和传承想象相连。`
       ),
+      narrativeParagraphs: id === "quinto-sol" ? additionalStoryNarratives["quinto-sol"] : undefined,
       themes: language.tags.slice(0, 3).map((tag, index) => text(tag, language.tagsZh[index] ?? tag)),
       tags: language.tags.map((tag, index) => text(tag, language.tagsZh[index] ?? tag))
     } satisfies Story;
