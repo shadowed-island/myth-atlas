@@ -1,6 +1,6 @@
 "use client";
 
-import { Compass, ExternalLink, MapPinned, X } from "lucide-react";
+import { Compass, ExternalLink, MapPinned, Shuffle, Sun, X } from "lucide-react";
 import { useEffect, useMemo, useRef } from "react";
 import { isDesktopApp, openDesktopExternalUrl } from "@/lib/desktop";
 import { getRelatedStories } from "@/lib/filter";
@@ -14,15 +14,18 @@ import { playUiSound } from "@/lib/sound";
 
 type StoryDetailProps = {
   layout: "desktop" | "mobile";
+  onPickRandomStory?: () => void;
 };
 
-export function StoryDetail({ layout }: StoryDetailProps) {
+export function StoryDetail({ layout, onPickRandomStory }: StoryDetailProps) {
   const locale = useExploreStore((state) => state.locale);
   const selectedStoryId = useExploreStore((state) => state.selectedStoryId);
   const selectStory = useExploreStore((state) => state.selectStory);
   const soundEnabled = useExploreStore((state) => state.soundEnabled);
   const narrationStoryId = useExploreStore((state) => state.narrationStoryId);
   const narrationSegmentIndex = useExploreStore((state) => state.narrationSegmentIndex);
+  const setSearchQuery = useExploreStore((state) => state.setSearchQuery);
+  const clearFilters = useExploreStore((state) => state.clearFilters);
   const selectedStory = useMemo(
     () => stories.find((story) => story.id === selectedStoryId),
     [selectedStoryId]
@@ -86,6 +89,28 @@ export function StoryDetail({ layout }: StoryDetailProps) {
       }, []),
     [narrativeParagraphs]
   );
+  const sourceMeta = useMemo(() => {
+    if (!selectedStory?.sourceUrl) {
+      return null;
+    }
+
+    try {
+      const url = new URL(selectedStory.sourceUrl);
+      const isWikipedia = url.hostname.includes("wikipedia.org");
+
+      return {
+        href: selectedStory.sourceUrl,
+        hostname: url.hostname.replace(/^www\./, ""),
+        label: isWikipedia ? t(locale, "wikipediaEntry") : t(locale, "referenceLink")
+      };
+    } catch {
+      return {
+        href: selectedStory.sourceUrl,
+        hostname: selectedStory.sourceUrl,
+        label: t(locale, "referenceLink")
+      };
+    }
+  }, [locale, selectedStory]);
   const setActiveNarrationElement = (element: HTMLElement | null) => {
     if (element) {
       activeNarrationRef.current = element;
@@ -118,10 +143,28 @@ export function StoryDetail({ layout }: StoryDetailProps) {
             <p>{t(locale, "chooseStoryBody")}</p>
           </div>
         </div>
-        <button className="ghost-button empty-state-button" onClick={() => selectStory("pandora")} type="button">
-          <Compass size={14} />
-          {t(locale, "startWithGreece")}
-        </button>
+        <div className="detail-empty-actions">
+          <button className="ghost-button empty-state-button" onClick={() => selectStory("pandora")} type="button">
+            <Compass size={14} />
+            {t(locale, "startWithGreece")}
+          </button>
+          <button
+            className="ghost-button empty-state-button"
+            onClick={() => {
+              clearFilters();
+              setSearchQuery(locale === "zh" ? "太阳" : "sun");
+              selectStory(null);
+            }}
+            type="button"
+          >
+            <Sun size={14} />
+            {t(locale, "trySunStories")}
+          </button>
+          <button className="ghost-button empty-state-button" onClick={onPickRandomStory} type="button">
+            <Shuffle size={14} />
+            {t(locale, "useRandomStory")}
+          </button>
+        </div>
       </div>
     );
   }
@@ -173,6 +216,31 @@ export function StoryDetail({ layout }: StoryDetailProps) {
             <p className="detail-context">{localizeText(selectedStory.background, locale)}</p>
           ) : null}
         </div>
+        {relatedStories.length > 0 ? (
+          <div className="detail-section related-stories detail-related-priority">
+            <span className="detail-section-label">{t(locale, "relatedPaths")}</span>
+            <div className="related-story-list">
+              {relatedStories.map((story) => (
+                <button
+                  className="related-story-button"
+                  key={story.id}
+                  onClick={() => {
+                    selectStory(story.id);
+                    if (soundEnabled) {
+                      playUiSound("select");
+                    }
+                  }}
+                  type="button"
+                >
+                  <strong>{localizeText(story.title, locale)}</strong>
+                  <span>
+                    {localizeText(story.country, locale)} · {localizeText(categoryMeta[story.category].shortLabel, locale)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
         <div className="detail-narrative">
           {narrativeParagraphs.map((paragraph, index) => (
             <p className={index === 0 ? "detail-background" : undefined} key={index}>
@@ -216,41 +284,24 @@ export function StoryDetail({ layout }: StoryDetailProps) {
             ))}
           </div>
         </div>
-        {relatedStories.length > 0 ? (
-          <div className="detail-section related-stories">
-            <span className="detail-section-label">{t(locale, "relatedPaths")}</span>
-            <div className="related-story-list">
-              {relatedStories.map((story) => (
-                <button
-                  className="related-story-button"
-                  key={story.id}
-                  onClick={() => {
-                    selectStory(story.id);
-                    if (soundEnabled) {
-                      playUiSound("select");
-                    }
-                  }}
-                  type="button"
-                >
-                  <strong>{localizeText(story.title, locale)}</strong>
-                  <span>
-                    {localizeText(story.country, locale)} · {localizeText(categoryMeta[story.category].shortLabel, locale)}
-                  </span>
-                </button>
-              ))}
-            </div>
+        {sourceMeta ? (
+          <div className="detail-section detail-source-section">
+            <span className="detail-section-label">{t(locale, "source")}</span>
+            <p className="detail-source-note">{t(locale, "sourceNote")}</p>
+            <a
+              className="source-link"
+              href={sourceMeta.href}
+              onClick={handleSourceLinkClick}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span className="source-link-copy">
+                <strong>{sourceMeta.label}</strong>
+                <span>{sourceMeta.hostname}</span>
+              </span>
+              <ExternalLink size={14} />
+            </a>
           </div>
-        ) : null}
-        {selectedStory.sourceUrl ? (
-          <a
-            className="source-link"
-            href={selectedStory.sourceUrl}
-            onClick={handleSourceLinkClick}
-            rel="noreferrer"
-            target="_blank"
-          >
-            {t(locale, "learnMore")} <ExternalLink size={14} />
-          </a>
         ) : null}
       </div>
     </article>

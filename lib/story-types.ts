@@ -18,6 +18,7 @@ export const defaultLocale: Locale = "en";
 export type LocaleMetadata = {
   code: Locale;
   dir: LocaleDirection;
+  englishLabel: string;
   htmlLang: string;
   nativeLabel: string;
   sentenceJoiner: string;
@@ -28,6 +29,7 @@ export const localeMetadata: Record<Locale, LocaleMetadata> = {
   en: {
     code: "en",
     dir: "ltr",
+    englishLabel: "English",
     htmlLang: "en",
     nativeLabel: "English",
     sentenceJoiner: " ",
@@ -36,6 +38,7 @@ export const localeMetadata: Record<Locale, LocaleMetadata> = {
   zh: {
     code: "zh",
     dir: "ltr",
+    englishLabel: "Chinese",
     htmlLang: "zh-CN",
     nativeLabel: "中文",
     sentenceJoiner: "",
@@ -44,6 +47,7 @@ export const localeMetadata: Record<Locale, LocaleMetadata> = {
   es: {
     code: "es",
     dir: "ltr",
+    englishLabel: "Spanish",
     htmlLang: "es",
     nativeLabel: "Español",
     sentenceJoiner: " ",
@@ -52,6 +56,7 @@ export const localeMetadata: Record<Locale, LocaleMetadata> = {
   ar: {
     code: "ar",
     dir: "rtl",
+    englishLabel: "Arabic",
     htmlLang: "ar",
     nativeLabel: "العربية",
     sentenceJoiner: " ",

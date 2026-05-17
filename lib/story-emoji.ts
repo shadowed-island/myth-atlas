@@ -139,6 +139,7 @@ const storyEmojiById: Record<string, string> = {
   "tane-separates-parents": "🌳",
   "pele-hiiaka": "🌋",
   "vasa-voyage": "🪸",
+  "degei": "🐍",
   "son-tinh-thuy-tinh": "🌊",
   "tam-cam": "🌳",
   "lac-long-quan-au-co": "🐉",

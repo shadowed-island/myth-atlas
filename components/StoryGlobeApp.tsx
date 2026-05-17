@@ -3,9 +3,10 @@
 import dynamic from "next/dynamic";
 import {
   BookOpen,
+  Captions,
   Compass,
-  Expand,
-  Languages,
+  Globe,
+  MousePointer2,
   Play,
   Rotate3D,
   Search,
@@ -13,19 +14,15 @@ import {
   Square,
   Volume2,
   VolumeX,
-  Captions,
-  Shuffle,
-  Undo2,
-  MousePointer2
+  Expand
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { filterStories, getResultsLabel, prioritizeStoriesByFocus } from "@/lib/filter";
 import { localeOptions, localizeText, t } from "@/lib/i18n";
+import { detectInitialLocale, persistLocale } from "@/lib/locale";
 import { getStoryNarrativeSentences } from "@/lib/story-narrative";
 import { stories } from "@/lib/stories";
-import { categoryIconComponents } from "@/lib/category-icons";
-import { categoryMeta, localeMetadata, storyCategories } from "@/lib/story-types";
-import type { Locale, Story } from "@/lib/story-types";
+import { localeMetadata, type Locale, type Story } from "@/lib/story-types";
 import {
   playUiSound,
   setAmbienceEnabled,
@@ -137,6 +134,8 @@ export function StoryGlobeApp() {
   const focusMode = useExploreStore((state) => state.focusMode);
   const setFocusMode = useExploreStore((state) => state.setFocusMode);
   const selectStory = useExploreStore((state) => state.selectStory);
+  const storyListViewMode = useExploreStore((state) => state.storyListViewMode);
+  const setStoryListViewMode = useExploreStore((state) => state.setStoryListViewMode);
   const [showDesktopHintDismissed, setShowDesktopHintDismissed] = useState(false);
   const globeStageRef = useRef<HTMLElement | null>(null);
   const previousTourActiveRef = useRef(tourActive);
@@ -184,6 +183,17 @@ export function StoryGlobeApp() {
     clearFilters();
     setShowDesktopHintDismissed(true);
   };
+
+  useEffect(() => {
+    const detected = detectInitialLocale();
+    if (detected !== useExploreStore.getState().locale) {
+      setLocale(detected);
+    }
+  }, [setLocale]);
+
+  useEffect(() => {
+    persistLocale(locale);
+  }, [locale]);
 
   useEffect(() => {
     document.documentElement.lang = localeMetadata[locale].htmlLang;
@@ -424,144 +434,145 @@ export function StoryGlobeApp() {
             />
           </label>
 
-          <div className="topbar-secondary-actions">
-            <button className="ghost-button" onClick={pickRandomStory} type="button">
-              <Shuffle size={15} />
-              {t(locale, "randomStory")}
-            </button>
+          <div className="topbar-tools">
             <button
-              className="ghost-button"
-              data-active={hasActiveFilters}
-              onClick={resetExploration}
-              type="button"
-            >
-              <Undo2 size={15} />
-              {hasActiveFilters ? t(locale, "resetFilters") : t(locale, "resetView")}
-            </button>
-            <button
-              className="ghost-button"
+              aria-label={tourActive ? t(locale, "tourStop") : t(locale, "tourStart")}
+              aria-pressed={tourActive}
+              className="topbar-icon-button"
               data-active={tourActive}
               onClick={() => {
                 setTourActive(!tourActive);
                 setShowDesktopHintDismissed(true);
                 playUiSound("select");
               }}
+              title={tourActive ? t(locale, "tourStop") : t(locale, "tourStart")}
               type="button"
             >
-              {tourActive ? <Square size={15} /> : <Play size={15} />}
-              {tourActive ? t(locale, "tourStop") : t(locale, "tourStart")}
-            </button>
-          </div>
-
-          <div className="top-actions">
-            <div className="language-menu" ref={languageMenuRef}>
-              <button
-                aria-expanded={languageMenuOpen}
-                aria-haspopup="menu"
-                aria-label={`${t(locale, "language")}: ${localeMetadata[locale].nativeLabel}`}
-                className="icon-button action-button language-menu-trigger"
-                data-tooltip={t(locale, "language")}
-                onClick={() => setLanguageMenuOpen((open) => !open)}
-                type="button"
-              >
-                <Languages size={18} />
-              </button>
-              {languageMenuOpen ? (
-                <div
-                  aria-label={t(locale, "language")}
-                  className="language-menu-popover"
-                  role="menu"
-                >
-                  {localeOptions.map((option) => (
-                    <button
-                      aria-checked={locale === option.code}
-                      className="language-menu-option"
-                      data-active={locale === option.code}
-                      key={option.code}
-                      onClick={() => {
-                        setLocale(option.code);
-                        setLanguageMenuOpen(false);
-                      }}
-                      role="menuitemradio"
-                      type="button"
-                    >
-                      {option.nativeLabel}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-            <button
-              aria-label={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
-              aria-pressed={soundEnabled}
-              className="icon-button action-button"
-              data-variant="sound"
-              data-tooltip={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              type="button"
-            >
-              {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+              {tourActive ? <Square size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
             </button>
             <button
               aria-label={narrationEnabled ? t(locale, "narrationOff") : t(locale, "narrationOn")}
               aria-pressed={narrationEnabled}
-              className="icon-button action-button"
-              data-variant="narration"
-              data-tooltip={narrationEnabled ? t(locale, "narrationOff") : t(locale, "narrationOn")}
+              className="topbar-icon-button"
+              data-active={narrationEnabled}
               disabled={!hasNarrationContext}
               onClick={() => {
                 setNarrationEnabled(!narrationEnabled);
                 playUiSound("hover");
               }}
+              title={
+                hasNarrationContext
+                  ? narrationEnabled
+                    ? t(locale, "narrationOff")
+                    : t(locale, "narrationOn")
+                  : t(locale, "narrationCardHintDisabled")
+              }
               type="button"
             >
-              <Captions size={18} />
+              <Captions size={16} aria-hidden="true" />
             </button>
+            <button
+              aria-label={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
+              aria-pressed={soundEnabled}
+              className="topbar-icon-button"
+              data-active={soundEnabled}
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              title={soundEnabled ? t(locale, "soundOff") : t(locale, "soundOn")}
+              type="button"
+            >
+              {soundEnabled ? (
+                <Volume2 size={16} aria-hidden="true" />
+              ) : (
+                <VolumeX size={16} aria-hidden="true" />
+              )}
+            </button>
+            <span aria-hidden="true" className="topbar-tools-divider" />
             <button
               aria-label={focusMode ? t(locale, "focusExit") : t(locale, "focusEnter")}
               aria-pressed={focusMode}
-              className="icon-button action-button"
-              data-variant="focus"
-              data-tooltip={focusMode ? t(locale, "focusExit") : t(locale, "focusEnter")}
+              className="topbar-icon-button"
+              data-active={focusMode}
               onClick={() => {
                 setFocusMode(!focusMode);
                 setShowDesktopHintDismissed(true);
                 playUiSound("hover");
               }}
+              title={focusMode ? t(locale, "focusExit") : t(locale, "focusEnter")}
               type="button"
             >
-              <Expand size={18} />
+              <Expand size={16} aria-hidden="true" />
             </button>
+            <div className="topbar-language">
+              <div className="language-menu" ref={languageMenuRef}>
+                <button
+                  aria-expanded={languageMenuOpen}
+                  aria-haspopup="menu"
+                  aria-label={`${t(locale, "language")}: ${localeMetadata[locale].nativeLabel}`}
+                  className="ghost-button language-trigger-button"
+                  onClick={() => setLanguageMenuOpen((open) => !open)}
+                  title={`${t(locale, "language")}: ${localeMetadata[locale].nativeLabel}`}
+                  type="button"
+                >
+                  <Globe size={16} aria-hidden="true" />
+                  <span className="language-trigger-label" lang={localeMetadata[locale].htmlLang}>
+                    {localeMetadata[locale].nativeLabel}
+                  </span>
+                </button>
+                {languageMenuOpen ? (
+                  <div
+                    aria-label={t(locale, "language")}
+                    className="language-menu-popover"
+                    role="menu"
+                  >
+                    {localeOptions.map((option) => {
+                      const showEnglishAlias = option.code !== "en";
+                      return (
+                        <button
+                          aria-checked={locale === option.code}
+                          className="language-menu-option"
+                          data-active={locale === option.code}
+                          key={option.code}
+                          onClick={() => {
+                            setLocale(option.code);
+                            setLanguageMenuOpen(false);
+                          }}
+                          role="menuitemradio"
+                          type="button"
+                        >
+                          <span className="language-option-native" lang={option.htmlLang}>
+                            {option.nativeLabel}
+                          </span>
+                          {showEnglishAlias ? (
+                            <span className="language-option-english">{option.englishLabel}</span>
+                          ) : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </div>
+            </div>
           </div>
         </header>
 
-        <div className="category-strip" aria-label="Story categories">
-          {storyCategories.map((category) => {
-            const meta = categoryMeta[category];
-            const active = activeCategories.includes(category);
-            const CategoryIcon = categoryIconComponents[category];
+        <div className="content-grid" data-detail-state={selectedStoryId ? "filled" : "empty"}>
+          <aside className="explorer-panel" aria-label="Story explorer">
+            <StoryList
+              hasActiveFilters={hasActiveFilters}
+              onPickRandomStory={pickRandomStory}
+              onReset={resetExploration}
+              onToggleCategory={(category) => {
+                toggleCategory(category);
+                setShowDesktopHintDismissed(true);
+              }}
+              onViewModeChange={setStoryListViewMode}
+              query={searchQuery}
+              resultsLabel={resultsLabel}
+              stories={prioritizedStories}
+              viewMode={storyListViewMode}
+            />
+          </aside>
 
-            return (
-              <button
-                aria-pressed={active}
-                className="category-chip"
-                data-active={active}
-                key={category}
-                onClick={() => {
-                  toggleCategory(category);
-                  setShowDesktopHintDismissed(true);
-                }}
-                style={{ "--chip-color": meta.color } as React.CSSProperties}
-                type="button"
-              >
-                <CategoryIcon className="chip-icon" size={15} strokeWidth={2.25} aria-hidden="true" />
-                {localizeText(meta.shortLabel, locale)}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="content-grid">
           <section className="globe-stage" aria-label="Interactive 3D globe" ref={globeStageRef}>
             <div className="canvas-wrap">
               <GlobeScene locale={locale} stories={visibleStories} zoomScopeRef={globeStageRef} />
@@ -589,20 +600,13 @@ export function StoryGlobeApp() {
                 </button>
               </div>
             ) : null}
-            <StoryDetail layout="mobile" />
+            <StoryDetail layout="mobile" onPickRandomStory={pickRandomStory} />
           </section>
 
-          <aside className="explorer-panel" aria-label="Story explorer">
-            <StoryList
-              stories={prioritizedStories}
-              query={searchQuery}
-              resultsLabel={resultsLabel}
-              onReset={resetExploration}
-            />
-            <StoryDetail layout="desktop" />
+          <aside className="detail-panel" aria-label="Story detail">
+            <StoryDetail layout="desktop" onPickRandomStory={pickRandomStory} />
           </aside>
         </div>
-
       </section>
     </main>
   );

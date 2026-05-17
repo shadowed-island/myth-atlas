@@ -17,6 +17,7 @@ type ExploreState = {
   narrationStoryId: string | null;
   narrationSegmentIndex: number | null;
   focusMode: boolean;
+  storyListViewMode: "list" | "cards";
   setLocale: (locale: Locale) => void;
   setSearchQuery: (searchQuery: string) => void;
   toggleCategory: (category: StoryCategory) => void;
@@ -30,6 +31,7 @@ type ExploreState = {
   setNarrationEnabled: (narrationEnabled: boolean) => void;
   setNarrationPosition: (storyId: string | null, segmentIndex: number | null) => void;
   setFocusMode: (focusMode: boolean) => void;
+  setStoryListViewMode: (storyListViewMode: "list" | "cards") => void;
 };
 
 export const useExploreStore = create<ExploreState>((set) => ({
@@ -46,6 +48,7 @@ export const useExploreStore = create<ExploreState>((set) => ({
   narrationStoryId: null,
   narrationSegmentIndex: null,
   focusMode: false,
+  storyListViewMode: "list",
   setLocale: (locale) => set({ locale }),
   setSearchQuery: (searchQuery) => set({ searchQuery, tourActive: false }),
   toggleCategory: (category) =>
@@ -84,5 +87,6 @@ export const useExploreStore = create<ExploreState>((set) => ({
     }),
   setNarrationPosition: (storyId, segmentIndex) =>
     set({ narrationStoryId: storyId, narrationSegmentIndex: segmentIndex }),
-  setFocusMode: (focusMode) => set({ focusMode })
+  setFocusMode: (focusMode) => set({ focusMode }),
+  setStoryListViewMode: (storyListViewMode) => set({ storyListViewMode })
 }));

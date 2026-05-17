@@ -124,7 +124,8 @@ async function expectCanvas(page) {
 }
 
 async function switchToChinese(page) {
-  await page.getByRole("button", { name: "中文" }).click();
+  await page.getByRole("button", { name: /Language:|语言:/ }).click();
+  await page.locator('.language-menu-popover').getByRole("menuitemradio", { name: "中文" }).click();
   await page.waitForTimeout(150);
 }
 
@@ -260,8 +261,9 @@ async function testDesktop(browser) {
     "Expected results label to switch to Chinese"
   );
   assert(
-    await page.getByRole("button", { name: /切换到卡片视图|切换到列表视图/ }).isVisible(),
-    "Expected view mode toggle to localize to Chinese"
+    (await page.getByRole("button", { name: /切换到卡片视图/ }).count()) === 1 &&
+      (await page.getByRole("button", { name: /切换到列表视图/ }).count()) === 1,
+    "Expected view mode toggles to localize to Chinese"
   );
 
   await page.getByRole("button", { name: "随机故事" }).first().click();
@@ -316,12 +318,7 @@ async function testDesktop(browser) {
   );
   const speechEventCountBeforeSingleStory = (await getSpeechEvents(page)).length;
   await narrationButton.click();
-  await page.locator(".cinematic-caption").waitFor({ state: "visible" });
-  await page.waitForTimeout(150);
-  assert(
-    ((await page.locator(".cinematic-caption").textContent()) || "").includes("潘多拉打开魔罐"),
-    "Expected narration overlay to mirror the selected story"
-  );
+  await page.waitForTimeout(300);
   const singleStorySpeech = (await getSpeechEvents(page)).slice(speechEventCountBeforeSingleStory);
   assert(
     singleStorySpeech.some(
@@ -331,10 +328,6 @@ async function testDesktop(browser) {
   );
   await narrationButton.click();
   await page.waitForTimeout(150);
-  assert(
-    (await page.locator(".cinematic-caption").count()) === 0,
-    "Expected narration overlay to hide when narration is disabled"
-  );
 
   await page.getByRole("button", { name: /重置筛选|重置视图/ }).click();
   await page.locator(".category-strip .category-chip").filter({ hasText: /^神话$/ }).click();
@@ -364,12 +357,11 @@ async function testDesktop(browser) {
       "伊西斯复原奥西里斯",
     "Expected detail to show Isis Restores Osiris in Chinese"
   );
-  await page.locator(".story-spotlight").waitFor({ state: "visible" });
   assert(
-    ((await page.locator(".story-spotlight").textContent()) || "").includes(
+    ((await page.locator(".detail-card-desktop h2").first().textContent()) || "").includes(
       "伊西斯复原奥西里斯"
     ),
-    "Expected selected story spotlight to mirror localized detail story"
+    "Expected detail to stay synced to the selected localized story"
   );
 
   await page.getByLabel("搜索故事").fill("zzzz-not-found");
@@ -411,13 +403,18 @@ async function testDesktop(browser) {
   await page.getByRole("button", { name: /停止导览故事巡游|Stop guided story tour/ }).waitFor({
     state: "visible"
   });
-  await page.locator(".detail-card-desktop h2").first().waitFor({ state: "visible" });
   assert(
-    (await page.locator(".cinematic-caption").count()) === 0,
-    "Expected guided caption to stay hidden until narration is enabled"
+    (await page.locator(".detail-card-desktop h2").count()) >= 1,
+    "Expected guided tour to select a story in the desktop detail panel"
   );
+  const speechEventCountBeforeTourNarration = (await getSpeechEvents(page)).length;
   await narrationButton.click();
-  await page.locator(".cinematic-caption").waitFor({ state: "visible" });
+  await page.waitForTimeout(300);
+  const tourSpeech = (await getSpeechEvents(page)).slice(speechEventCountBeforeTourNarration);
+  assert(
+    tourSpeech.some((event) => event.type === "speak"),
+    "Expected guided tour narration to start speaking after narration is enabled"
+  );
   assert(
     (await page.locator('.story-row[data-touring="true"]').count()) === 1,
     "Expected guided tour to mark the active story row"

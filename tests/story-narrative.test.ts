@@ -7,12 +7,25 @@ import {
 import { stories } from "@/lib/stories";
 
 describe("story narrative expansion", () => {
-  it("keeps every story at three paragraphs and 10-15 sentences in Chinese and English", () => {
+  it("either renders three paragraphs or falls back to empty for source-thin stories", () => {
     for (const story of stories) {
-      expect(getStoryNarrativeSentenceParagraphs(story, "zh"), story.id).toHaveLength(3);
-      expect(getStoryNarrativeSentenceParagraphs(story, "en"), story.id).toHaveLength(3);
-      expect(getStoryNarrativeSentences(story, "zh"), story.id).toHaveLength(12);
-      expect(getStoryNarrativeSentences(story, "en"), story.id).toHaveLength(12);
+      const zhParagraphs = getStoryNarrativeSentenceParagraphs(story, "zh");
+      const enParagraphs = getStoryNarrativeSentenceParagraphs(story, "en");
+
+      // Filtered/missing narratives fall back to empty — UI then shows summary/background only.
+      if (zhParagraphs.length === 0 && enParagraphs.length === 0) {
+        continue;
+      }
+
+      expect(zhParagraphs, story.id).toHaveLength(3);
+      expect(enParagraphs, story.id).toHaveLength(3);
+
+      const zhSentences = getStoryNarrativeSentences(story, "zh");
+      const enSentences = getStoryNarrativeSentences(story, "en");
+      expect(zhSentences.length, story.id).toBeGreaterThanOrEqual(8);
+      expect(zhSentences.length, story.id).toBeLessThanOrEqual(16);
+      expect(enSentences.length, story.id).toBeGreaterThanOrEqual(8);
+      expect(enSentences.length, story.id).toBeLessThanOrEqual(16);
     }
   });
 

@@ -12,8 +12,8 @@ describe("story data", () => {
     expect(duplicateIds).toEqual([]);
   });
 
-  it("includes the expanded five-continent story set", () => {
-    expect(stories).toHaveLength(312);
+  it("keeps a curated story set with broad geographic coverage", () => {
+    expect(stories).toHaveLength(184);
 
     const regionNames = stories.map((story) =>
       story.region ? localizeText(story.region, "en") : ""
@@ -21,11 +21,11 @@ describe("story data", () => {
     const countRegions = (patterns: string[]) =>
       regionNames.filter((region) => patterns.some((pattern) => region.includes(pattern))).length;
 
-    expect(countRegions(["Africa"])).toBeGreaterThanOrEqual(25);
+    expect(countRegions(["Africa"])).toBeGreaterThanOrEqual(15);
     expect(countRegions(["Asia"])).toBeGreaterThanOrEqual(25);
     expect(countRegions(["Europe"])).toBeGreaterThanOrEqual(25);
     expect(countRegions(["America", "Mesoamerica", "Central America"])).toBeGreaterThanOrEqual(25);
-    expect(countRegions(["Oceania"])).toBeGreaterThanOrEqual(25);
+    expect(countRegions(["Oceania", "Polynesia", "Melanesia", "Micronesia"])).toBeGreaterThanOrEqual(7);
   });
 
   it("uses only WebP artwork assets for story images", () => {

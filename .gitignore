@@ -70,3 +70,6 @@ coverage.out
 /api/data/
 /api/app/data/
 /api/app/test-uploads/
+
+/tmp
+
