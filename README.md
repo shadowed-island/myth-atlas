@@ -18,7 +18,7 @@ https://shadowed-island.github.io/myth-atlas/
 - Open a story detail panel with artwork, background, themes, and related paths.
 - Switch between list browsing and card browsing.
 - Start a guided tour and optionally enable spoken narration.
-- Switch between English and Chinese.
+- Switch between English, Chinese, Spanish, and Arabic.
 - Let the atlas pick a random story for you.
 - Optionally package it as a desktop app with Electron.
 
@@ -28,25 +28,25 @@ https://shadowed-island.github.io/myth-atlas/
 
 ![Main exploration view](docs/readme/overview-en-2026-05.png)
 
-The default layout combines the globe, search, category filters, and story list in one screen.
+The latest layout keeps the explorer, globe, quick actions, and story starter panel visible in one workspace.
 
 ### Story detail view
 
 ![Story detail view](docs/readme/story-detail-en-2026-05.png)
 
-Selecting a story opens a richer view with artwork, location context, and a longer narrative summary.
+Selecting a story opens a dedicated detail panel while keeping the globe and nearby story list in view.
 
 ### Card browsing view
 
 ![Card browsing view](docs/readme/card-view-en-2026-05.png)
 
-Card view is useful when you want to browse visually before opening a story path.
+Card view is useful when you want to skim artwork and story leads before opening a path.
 
 ### Multilingual interface
 
-![Multilingual interface](docs/readme/overview-zh-2026-05.png)
+![Multilingual interface](docs/readme/language-menu-en-2026-05.png)
 
-The full app supports multiple languages from the language menu in the top bar.
+The language menu in the top bar currently supports English, 中文, Español, and العربية.
 
 ## Quick Start for Regular Users
 
