@@ -1,6 +1,6 @@
 {
   "name": "myth-atlas",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "Explore mythology and folklore on a luminous 3D globe.",
   "license": "MIT",
   "private": true,
@@ -19,6 +19,7 @@
     "desktop:preview": "pnpm run desktop:build && cross-env MYTH_ATLAS_FORCE_PROD=1 MYTH_ATLAS_DESKTOP_DIST_DIR=out electron .electron-build/electron/main.js",
     "desktop:smoke": "pnpm run desktop:build && node tests/electron/run-smoke.mjs",
     "electron:build": "tsc -p tsconfig.electron.json",
+    "release:sync-version": "node scripts/sync-version-from-tag.mjs",
     "start": "next start",
     "e2e": "node tests/e2e/run-e2e.mjs",
     "lint": "eslint .",
