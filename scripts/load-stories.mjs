@@ -16,9 +16,22 @@ export function loadStories(workspaceDir = process.cwd()) {
     .replace(/\}\s+satisfies Story;/g, "};")
     .concat("\nmodule.exports = { stories };");
 
+  // The vm sandbox can't import the generated artwork manifest. Replace it
+  // with a real fs-backed set so the bottom-of-file forEach behaves the
+  // same as it does at runtime.
+  const artworkDir = path.join(workspaceDir, "public", "story-artwork", "generated");
+  const generatedArtworkIds = new Set(
+    fs.existsSync(artworkDir)
+      ? fs.readdirSync(artworkDir)
+          .filter((f) => f.endsWith(".webp"))
+          .map((f) => f.replace(/\.webp$/, ""))
+      : []
+  );
+
   const sandbox = {
     module: { exports: {} },
-    exports: {}
+    exports: {},
+    generatedArtworkIds
   };
 
   vm.runInNewContext(executable, sandbox, { filename: storiesPath });
