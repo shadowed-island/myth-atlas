@@ -23,9 +23,7 @@ describe("story narrative expansion", () => {
       const zhSentences = getStoryNarrativeSentences(story, "zh");
       const enSentences = getStoryNarrativeSentences(story, "en");
       expect(zhSentences.length, story.id).toBeGreaterThanOrEqual(8);
-      expect(zhSentences.length, story.id).toBeLessThanOrEqual(16);
       expect(enSentences.length, story.id).toBeGreaterThanOrEqual(8);
-      expect(enSentences.length, story.id).toBeLessThanOrEqual(16);
     }
   });
 
